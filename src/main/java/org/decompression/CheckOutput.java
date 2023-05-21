@@ -54,14 +54,16 @@ public class CheckOutput {
         this.last = (byte)tmp;
     }
     public int checkSum() throws IOException {
-        int x = 0;
-        int tmp = 0;
+        int x ;
+        int cntr = 0;
         input.seek(0);
         for (int i = 0; i < 2; i++) {
             if((x = input.readByte()) != -1) {
                 sumInt = x ^ sumInt;
                 sumInt ^= 0xFF;
                 sumInt ^= 0b11111111;
+                System.out.println(sumInt);
+                cntr++;
             } else {
                 System.out.println("There was an error while reading the file. Aborting.");
                 return -1;
@@ -69,15 +71,31 @@ public class CheckOutput {
         }
         input.seek(input.getFilePointer() + 1);
         try {
+           byte [] bajty = new byte[(int)(input.length())-3];
+           input.readFully(bajty);
+            /*
             while((x = input.readByte()) != -1) {
                 sumInt = x ^ sumInt;
                 sumInt ^= 0xFF;
                 sumInt ^= 0b11111111;
+                System.out.println(sumInt);
+                cntr++;
             }
+            */
+
+            for(cntr = 3; cntr < input.length(); cntr++) {
+                sumInt = bajty[cntr-3] ^ sumInt;
+                sumInt ^= 0xFF;
+                sumInt ^= 0b11111111;
+                System.out.println(sumInt);
+            }
+            sumInt &= 0xFF;
         } catch (EOFException e) {
             sumInt &= 0b11111111;
         }
+        // do usunięcia
         System.out.println(sumInt);
+        System.out.println(cntr);
         if(sumInt == 69) {
             return 1;
         } else {
