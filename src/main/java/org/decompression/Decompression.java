@@ -15,7 +15,6 @@ public class Decompression extends Menu{
             super.passwordRequired();
             XOR();
         }
-
         this.tree = tree;
         this.tree.readtree(input);
         this.cntr = tree.cntr;
@@ -33,6 +32,8 @@ public class Decompression extends Menu{
     public void decode() throws IOException{
         if(compLevel == 1) {
             tree.decodefile();
+            this.output.close();
+            this.input.close();
         } else {
             System.out.println("Decompressor works only with 8-bit compressed files!");
         }
@@ -43,17 +44,22 @@ public class Decompression extends Menu{
         for (int i = 0; i < password.length(); i++) {
             haslo ^= password.charAt(i);
         }
-        byte tmp = 0;
+        byte tmp;
         //todo: to jest do poprawy (nie podoba mi sie to)
         long fileLength = input.length() - 6;
-        long y = 0;
-        while(y < fileLength) {
-            input.seek(6 + y);
-            tmp = input.readByte();
-            tmp ^= haslo;
-            input.seek(input.getFilePointer() - 1);
-            input.writeByte(tmp);
-            y++;
+        long y;
+        input.seek(6);
+        try {
+            for (y = 0; y < fileLength; y++) {
+                //input.seek(6 + y)
+                tmp = input.readByte();
+                tmp ^= haslo;
+                input.seek(input.getFilePointer() - 1);
+                input.writeByte(tmp);
+            }
+        }
+        catch(IOException e) {
+            throw new IOException("Warning! There was an I/O error while decoding the file.");
         }
         input.seek(2);
     }

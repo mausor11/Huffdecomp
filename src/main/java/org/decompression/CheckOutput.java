@@ -1,6 +1,5 @@
 package org.decompression;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -54,44 +53,30 @@ public class CheckOutput {
         this.last = (byte)tmp;
     }
     public int checkSum() throws IOException {
-        int x ;
-        int cntr = 0;
+//        int x ;
+        long cntr = 0;
         input.seek(0);
-        for (int i = 0; i < 2; i++) {
-            if((x = input.readByte()) != -1) {
-                sumInt = x ^ sumInt;
-                sumInt ^= 0xFF;
-                sumInt ^= 0b11111111;
-                System.out.println(sumInt);
-                cntr++;
-            } else {
-                System.out.println("There was an error while reading the file. Aborting.");
-                return -1;
-            }
-        }
-        input.seek(input.getFilePointer() + 1);
         try {
-           byte [] bajty = new byte[(int)(input.length())-3];
-           input.readFully(bajty);
-            /*
-            while((x = input.readByte()) != -1) {
-                sumInt = x ^ sumInt;
+            long len = input.length();
+            for (int i = 0; i < 2; i++) {
+    //            x = input.readByte();
+                sumInt = input.readByte() ^ sumInt;
                 sumInt ^= 0xFF;
                 sumInt ^= 0b11111111;
                 System.out.println(sumInt);
                 cntr++;
             }
-            */
+            input.seek(input.getFilePointer() + 1);
 
-            for(cntr = 3; cntr < input.length(); cntr++) {
-                sumInt = bajty[cntr-3] ^ sumInt;
+            for(cntr = 3; cntr < len; cntr++) {
+//                x = input.readByte();
+                sumInt = input.readByte() ^ sumInt;
                 sumInt ^= 0xFF;
                 sumInt ^= 0b11111111;
-                System.out.println(sumInt);
             }
             sumInt &= 0xFF;
-        } catch (EOFException e) {
-            sumInt &= 0b11111111;
+        } catch (IOException e) {
+            throw new IOException("Warning! There was an I/O error while checking input file integrity.");
         }
         // do usunięcia
         System.out.println(sumInt);

@@ -27,13 +27,16 @@ public class Tree{
     Node lastroot;
     Union union;
     int cntr;
-    int indexTree;
+    //int indexTree;
     public Tree() {
     }
-    public void add(byte value) {
+
+    /*
+    private void add(byte value) {
         root = addRecursive(root, value);
     }
-    public Node addRecursive(Node root, byte value) {
+     */
+    private Node addRecursive(Node root, byte value) {
         if(root == null) {
             root = new Node();
             root.sign = value;
@@ -94,10 +97,13 @@ public class Tree{
         return null;
 
     }
+    /*
     public void writeTree() {
         writeNode(root, 0);
     }
-    public void writeNode(Node root,  int i) {
+
+     */
+    private void writeNode(Node root,  int i) {
         if(root != null) {
             i++;
             System.out.println("====\tlevel " + i + "| ascii num:" + (char)root.sign + "; ascii char: " + (int)root.sign + "; count: " + root.counter);
@@ -110,7 +116,7 @@ public class Tree{
         last += cntr;
         lastBytes();
     }
-    public Node decodeFile(Node root) throws IOException{
+    private Node decodeFile(Node root) throws IOException{
         int number, i;
         byte received, cahr = 0;
         byte[] buf = new byte[100];
@@ -149,7 +155,7 @@ public class Tree{
         return nroot;
 
     }
-    public Node decode(Node root) {
+    private Node decode(Node root) {
         Node nroot = root;
         while(this.cntr != 0) {
             if(Union.bit(union.A, 7) == 0) {
@@ -172,7 +178,7 @@ public class Tree{
         }
         return nroot;
     }
-    public void lastBytes() throws IOException {
+    private void lastBytes() throws IOException {
         while(last != 0) {
             if(lastroot.counter != 0) {
                 output.writeByte(lastroot.sign);

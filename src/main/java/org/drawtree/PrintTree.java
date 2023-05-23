@@ -43,7 +43,7 @@ public class PrintTree extends Application {
     int u;
     public PrintTree (Node tree) {
         this.tree = tree;
-//        this.tree.writeTree(this.tree);
+        this.tree.writeTree(this.tree);
         makeTreeList();
         setCircleParametrs();
     }
