@@ -20,9 +20,9 @@ public class DrawCircle {
         this.sign = sign;
         circle = new Circle();
         if(n == 1) {
-            circle.setFill(Color.LIGHTBLUE);
-            circle.setStrokeWidth(1);
-            circle.setStroke(Color.BLACK);
+            circle.setFill(Color.web("#5e10d9"));
+            circle.setStrokeWidth(20);
+            circle.setStroke(Color.web("#7B728B"));
         } else {
             circle.setFill(Color.TRANSPARENT);
             circle.setStroke(Color.TRANSPARENT);
@@ -38,7 +38,7 @@ public class DrawCircle {
     private Text newLetter() {
         Text text = new Text(String.valueOf(sign));
         text.setFont(Font.font("Arial", FontWeight.BOLD, size));
-        text.setFill(Color.BLACK);
+        text.setFill(Color.web("#EBE1FA"));
         text.setX(X - text.getBoundsInLocal().getWidth() / 2);
         text.setY(Y + text.getBoundsInLocal().getHeight() / 4);
         return text;

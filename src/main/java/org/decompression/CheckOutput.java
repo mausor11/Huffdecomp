@@ -1,6 +1,8 @@
 package org.decompression;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.io.RandomAccessFile;
 
 public class CheckOutput {
@@ -34,6 +36,29 @@ public class CheckOutput {
         leaves <<= 8;
         leaves += tmp1;
         checkFlag();
+    }
+    static boolean isEncryptRequired(String fileName) throws IOException {
+        try {
+            RandomAccessFile file = new RandomAccessFile(fileName, "r");
+            byte maskEncrypt = 0b00100000;
+            byte flag;
+            file.seek(3);
+            flag = file.readByte();
+            int tmp = flag & maskEncrypt;
+            tmp>>=5;
+            if(tmp == 1) {
+                file.close();
+                return true;
+            } else {
+                file.close();
+                return false;
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found!");
+            e.printStackTrace();
+            System.exit(-1);
+        }
+        return false;
     }
     public void checkFlag() {
         byte maskSzyfr = 0b00100000;

@@ -1,0 +1,57 @@
+#button {
+    -fx-background-color: #5e10d9;
+    -fx-background-radius: 20 0 0 20;
+}
+#button:hover {
+    -fx-background-color: #6f21e0;
+}
+#decompress {
+    -fx-background-color: #5e10d9;
+    -fx-background-radius: 20;
+}
+#decompress:hover {
+    -fx-background-color: #6f21e0;
+}
+#menuButton {
+    -fx-background-color: #5e10d9;
+}
+.textArea {
+    -fx-background-color: transparent;
+    -fx-border-color: #5e10d9;
+    -fx-text-fill: #ebe1fa;
+    -fx-border-width: 1 1 1 0;
+}
+
+.textArea .scroll-pane {
+    -fx-background-color: transparent;
+}
+.textArea .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+.textArea .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+.passwordField {
+    -fx-background-color: transparent;
+    -fx-border-color: #5e10d9;
+    -fx-background-radius: 20px;
+    -fx-border-width: 2px;
+    -fx-border-radius: 20px;
+
+}
+.passButton {
+    -fx-background-color: transparent;
+    -fx-border-color: #5e10d9;
+    -fx-background-radius: 20px;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+}
+.passButton:hover {
+    -fx-background-color: #1c063b;
+    -fx-background-radius: 20px;
+    -fx-border-width: 3px;
+    -fx-border-radius: 10px;
+}
+.passButton:pressed {
+    -fx-border-color: #613f91;
+}

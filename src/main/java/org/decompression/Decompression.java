@@ -1,19 +1,20 @@
 package org.decompression;
 
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-public class Decompression extends Menu{
-    public Decompression () throws Exception {
-        super();
-        this.input = new RandomAccessFile(super.inputFile, "rw");
-        this.output = new RandomAccessFile(super.outputFile, "rw");
+public class Decompression {
+    public Decompression (String inputFile, String outputFile, String password) throws Exception {
+        this.input = new RandomAccessFile(inputFile, "rw");
+        this.output = new RandomAccessFile(outputFile, "rw");
+        this.password = password;
         Tree tree = new Tree(input, output);
         this.encryption = tree.encryption;
 
         if(this.encryption) {
-            super.passwordRequired();
-            XOR();
+           XOR();
         }
         this.tree = tree;
         this.tree.readtree(input);
@@ -25,6 +26,7 @@ public class Decompression extends Menu{
     RandomAccessFile input;
     RandomAccessFile output;
     int cntr;
+    String password;
     int compLevel;
     boolean encryption;
     Union union;

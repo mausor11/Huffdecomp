@@ -8,6 +8,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -38,10 +40,12 @@ public class PrintTree extends Application {
 
     //parametry Circle
     int sizeCircle;
+    int maxSize;
     int centerX;
     int centerY;
     int u;
     public PrintTree (Node tree) {
+        this.maxSize = 0;
         this.tree = tree;
         this.tree.writeTree(this.tree);
         makeTreeList();
@@ -50,11 +54,13 @@ public class PrintTree extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Tree");//blo
+        BackgroundFill backgroundFill = new BackgroundFill(Color.web("#0C021B"), null, null);
+        Background background = new Background(backgroundFill);
         Pane root = new Pane();//bylo
+        root.setBackground(background);
         prepareTree(root);
 
         Scene scene = new Scene(root, WIDTH, HEIGHT); //bylo
-
         scene.setOnMousePressed(event -> {
             lastX = event.getSceneX();
             lastY = event.getSceneY();
@@ -87,7 +93,7 @@ public class PrintTree extends Application {
 
             event.consume();
         });
-
+        scene.setFill(Color.web("#0C021B"));
         stage.setScene(scene);//bylo
         stage.show();//bylo
     }
@@ -99,14 +105,15 @@ public class PrintTree extends Application {
         Queue<Node> queue = new LinkedList<>();
         queue.add(tree);
         int index = 0;
+        int tmp = 0;
         while (!queue.isEmpty()) {
             int levelSize = queue.size();
             boolean allNulls = true;
-
             for (int i = 0; i < levelSize; i++) {
                 Node node = queue.poll();
 
                 if (node != null) {
+                    tmp++;
                     signs.put(index, (char)node.sign);
                     if (node.left != null) {
                         queue.add(node.left);
@@ -127,12 +134,16 @@ public class PrintTree extends Application {
                 }
                 index++;
             }
-
             if (allNulls) {
                 break;
             }
+            if(tmp > this.maxSize) {
+                this.maxSize = tmp;
+            }
+            tmp = 0;
             this.level++;
         }
+        System.out.println("max: " + this.maxSize);
     }
     private void setCircleParametrs() {
         double maxNodes = Math.pow(2,level-1);
@@ -160,10 +171,7 @@ public class PrintTree extends Application {
             tmpY += centerY;
         }
         tmpX = centerX/2;
-        System.out.println(tmpX);
-        System.out.println(centerX);
         tmpMath = (int) Math.pow(2,level-1);
-        System.out.println(tmpMath);
         for (int i = 0; i < tmpMath; i++) {
             points.addPoint(tmpX,tmpY,u, (char)0);
             u++;
@@ -180,6 +188,7 @@ public class PrintTree extends Application {
                 root.getChildren().add(DrawCircle.newCircle(sizeCircle,points.coordinate.get(i).X, points.coordinate.get(i).Y, signs.get(i), 1));
                 points.coordinate.get(i).sign = signs.get(i); //jak nie dziala to przez to
             }
+
         }
     }
 

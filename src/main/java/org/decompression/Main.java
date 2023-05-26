@@ -11,13 +11,14 @@ public class Main extends Application {
 
     }
 
+
     @Override
     public void start(Stage stage) throws Exception {
-//        Menu menu = new Menu(stage);
-
-        Decompression decompression = new Decompression();
-        decompression.decode();
-        PrintTree printTree = new PrintTree(decompression.tree.root);
-        printTree.start(stage);
+        Menu menu = new Menu();
+        menu.start(stage);
+//        Decompression decompression = new Decompression();
+//        decompression.decode();
+//        PrintTree printTree = new PrintTree(decompression.tree.root);
+//        printTree.start(stage);
     }
 }

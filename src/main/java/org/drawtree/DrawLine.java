@@ -24,8 +24,8 @@ public class DrawLine {
         line.setStartY(startY);
         line.setEndX(endX);
         line.setEndY(endY);
-        line.setStroke(Color.BLACK);
-        line.setStrokeWidth(2);
+        line.setStroke(Color.web("#7B728B"));
+        line.setStrokeWidth(20);
     }
     public static Line newLine(int startX, int startY, int endX, int endY) {
         DrawLine drawLine = new DrawLine(startX, startY, endX, endY);
