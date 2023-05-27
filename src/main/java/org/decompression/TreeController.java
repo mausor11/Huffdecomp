@@ -4,7 +4,6 @@ import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -17,7 +16,6 @@ import java.io.File;
 public class TreeController  {
     final FileChooser fileChooser = new FileChooser();
     String inputPath;
-    boolean encrypt = false;
     String nameFile;
     @FXML
     private Button button;
@@ -41,13 +39,17 @@ public class TreeController  {
         fileChooser.setTitle("Choose file");
         File file = fileChooser.showOpenDialog(null);
         menuButton.setText("Extension");
-        textArea.setText(file.getAbsolutePath());
-        inputPath = file.getAbsolutePath();                                                                             //ścieżka do pliku
-        nameFile = file.getName();                                                                                      //nazwa pliku z rozszerzeniem
-        int ifDot = nameFile.lastIndexOf('.');
-        if(ifDot != -1) {
-            nameFile = nameFile.substring(0, nameFile.lastIndexOf('.'));                                                //nazwa pliku bez rozszerzenia
+        if(file != null ) {
+            textArea.setText(file.getAbsolutePath());
+            inputPath = file.getAbsolutePath();
+            nameFile = file.getName();
+            int ifDot = nameFile.lastIndexOf('.');
+            if(ifDot != -1) {
+                nameFile = nameFile.substring(0, nameFile.lastIndexOf('.'));
+            }
+
         }
+
     }
     public void txt() {
         menuButton.setText("txt");
@@ -108,7 +110,7 @@ public class TreeController  {
         info.setVisible(false);
     }
     //todo: poprawić Label(jest czarny text), zmienić passwordField zeby byl pod decompress
-    public void passwordRequired() throws Exception {
+    public void passwordRequired() {
         decompress.setOnAction(e ->  {
             try {
                 if(passwordField.getText().isEmpty()) {

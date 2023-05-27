@@ -9,8 +9,8 @@ public class Node{
     int counter;
     public Node left;
     public Node right;
-    int k;
-    Array2D levels;
+    final int k;
+    final Array2D levels;
     public Node() {
         this.sign = 0;
         this.counter = 0;
@@ -70,7 +70,7 @@ public class Node{
 
         }
         writeTree(root);
-        System.out.println(q.toString());
+        System.out.println(q);
         return root;
     }
 

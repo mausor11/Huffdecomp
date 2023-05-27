@@ -3,17 +3,12 @@ package org.drawtree;
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import org.decompression.Node;
@@ -25,7 +20,7 @@ import java.util.Map;
 import java.util.Queue;
 
 public class PrintTree extends Application {
-    Node tree;  //drzewo do printa
+    final Node tree;
     Map<Integer, Character> signs;
     Points points;
     int level = 1;
@@ -52,15 +47,15 @@ public class PrintTree extends Application {
         setCircleParametrs();
     }
     @Override
-    public void start(Stage stage) throws Exception {
-        stage.setTitle("Tree");//blo
+    public void start(Stage stage) {
+        stage.setTitle("Tree");
         BackgroundFill backgroundFill = new BackgroundFill(Color.web("#0C021B"), null, null);
         Background background = new Background(backgroundFill);
-        Pane root = new Pane();//bylo
+        Pane root = new Pane();
         root.setBackground(background);
         prepareTree(root);
 
-        Scene scene = new Scene(root, WIDTH, HEIGHT); //bylo
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
         scene.setOnMousePressed(event -> {
             lastX = event.getSceneX();
             lastY = event.getSceneY();
@@ -94,8 +89,8 @@ public class PrintTree extends Application {
             event.consume();
         });
         scene.setFill(Color.web("#0C021B"));
-        stage.setScene(scene);//bylo
-        stage.show();//bylo
+        stage.setScene(scene);
+        stage.show();
     }
     private void makeTreeList() {
         if (tree == null) {
@@ -166,7 +161,7 @@ public class PrintTree extends Application {
                 u++;
                 root.getChildren().add(DrawCircle.newCircle(sizeCircle, tmpX, tmpY, (char)0, 0));
 
-                tmpX += MAX_WIDTH/(tmpMath + 1);;
+                tmpX += MAX_WIDTH/(tmpMath + 1);
             }
             tmpY += centerY;
         }

@@ -1,6 +1,5 @@
 package org.drawtree;
 
-import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -9,11 +8,11 @@ import org.decompression.Points;
 import java.util.Map;
 
 public class DrawLine {
-    Line line;
-    int startX;
-    int startY;
-    int endX;
-    int endY;
+    final Line line;
+    final int startX;
+    final int startY;
+    final int endX;
+    final int endY;
     public DrawLine(int startX, int startY, int endX, int endY) {
         this.startX = startX;
         this.startY = startY;

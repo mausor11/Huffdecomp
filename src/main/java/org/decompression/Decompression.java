@@ -1,7 +1,5 @@
 package org.decompression;
 
-import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -47,7 +45,7 @@ public class Decompression {
             haslo ^= password.charAt(i);
         }
         byte tmp;
-        //todo: to jest do poprawy (nie podoba mi sie to)
+        //todo: to jest do poprawy (nie podoba mi się to)
         long fileLength = input.length() - 6;
         long y;
         input.seek(6);

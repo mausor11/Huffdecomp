@@ -8,11 +8,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class DrawCircle {
-    Circle circle;
-    int size;
-    int X;
-    int Y;
-    char sign;
+    final Circle circle;
+    final int size;
+    final int X;
+    final int Y;
+    final char sign;
     public DrawCircle(int size, int X, int Y, char sign, int n) {
         this.size = size;
         this.X  = X;

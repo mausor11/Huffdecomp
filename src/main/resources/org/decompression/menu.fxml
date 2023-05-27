@@ -2,32 +2,36 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1216.0" style="-fx-background-color: #0C021B;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.decompression.TreeController">
-   <children>
-      <Button id="button" fx:id="button" layoutX="376.0" layoutY="298.0" mnemonicParsing="false" onMouseClicked="#setItem" prefHeight="61.0" prefWidth="205.0" text="Choose file" textFill="#ebe1fa">
-         <font>
-            <Font size="20.0" />
-         </font>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets></Button>
-      <Button id="decompress" fx:id="decompress" layoutX="376.0" layoutY="437.0" mnemonicParsing="false" onAction="#onDecompression" prefHeight="61.0" prefWidth="465.0" text="Decompress" textFill="#ebe1fa">
-         <font>
-            <Font size="20.0" />
-         </font></Button>
-      <TextArea fx:id="textArea" layoutX="594.0" layoutY="298.0" prefHeight="55.0" prefWidth="247.0" promptText="Selected file" styleClass="textArea">
-         <font>
-            <Font size="20.0" />
-         </font></TextArea>
-      <Label alignment="CENTER" layoutX="376.0" layoutY="367.0" prefHeight="61.0" prefWidth="205.0" style="-fx-border-color: #5e10d9; -fx-border-width: 1px 0px 1px 1px;" text="Choose file extension" textAlignment="CENTER" textFill="#ebe1fa" wrapText="true">
-         <font>
-            <Font size="20.0" />
-         </font></Label>
-      <MenuButton id="menuButton" fx:id="menuButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="20.0" layoutX="594.0" layoutY="367.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" popupSide="TOP" prefHeight="61.0" prefWidth="247.0" style="-fx-background-color: #5e10d9; -fx-background-radius: 0 20 20 0;" text="Extension" textFill="#ebe1fa" textOverrun="CENTER_ELLIPSIS">
-        <items>
+    <Button id="button" fx:id="button" layoutX="376.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#setItem" prefHeight="61.0" prefWidth="205.0" text="Choose file" textFill="#ebe1fa">
+        <font>
+          <Font size="20.0" />
+        </font>
+        <opaqueInsets>
+          <Insets />
+        </opaqueInsets>
+    </Button>
+    <Button id="decompress" fx:id="decompress" layoutX="376.0" layoutY="507.0" mnemonicParsing="false" onAction="#onDecompression" prefHeight="61.0" prefWidth="465.0" text="Decompress" textFill="#ebe1fa">
+        <font>
+          <Font size="20.0" />
+        </font>
+    </Button>
+    <TextArea fx:id="textArea" layoutX="594.0" layoutY="368.0" prefHeight="55.0" prefWidth="247.0" promptText="Selected file" styleClass="textArea">
+        <font>
+          <Font size="20.0" />
+        </font>
+    </TextArea>
+    <Label alignment="CENTER" layoutX="376.0" layoutY="437.0" prefHeight="61.0" prefWidth="205.0" style="-fx-border-color: #5e10d9; -fx-border-width: 1px 0px 1px 1px;" text="Choose file extension" textAlignment="CENTER" textFill="#ebe1fa" wrapText="true">
+        <font>
+          <Font size="20.0" />
+        </font>
+    </Label>
+    <MenuButton id="menuButton" fx:id="menuButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="20.0" layoutX="594.0" layoutY="437.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" popupSide="TOP" prefHeight="61.0" prefWidth="247.0" style="-fx-background-color: #5e10d9; -fx-background-radius: 0 20 20 0;" text="Extension" textFill="#ebe1fa" textOverrun="CENTER_ELLIPSIS">
+      <items>
           <MenuItem mnemonicParsing="false" onAction="#txt" onMenuValidation="#txt" style="-fx-font-size: 20px; -fx-pref-width: 237px" text="txt" />
           <MenuItem mnemonicParsing="false" onAction="#doc" onMenuValidation="#doc" style="-fx-font-size: 20px;" text="doc" />
           <MenuItem mnemonicParsing="false" onAction="#docx" onMenuValidation="#docx" style="-fx-font-size: 20px;" text="docx" />
@@ -38,24 +42,28 @@
           <MenuItem mnemonicParsing="false" onAction="#mp4" onMenuValidation="#mp4" style="-fx-font-size: 20px;" text="mp4" />
           <MenuItem mnemonicParsing="false" onAction="#mov" onMenuValidation="#mov" style="-fx-font-size: 20px;" text="mov" />
           <MenuItem mnemonicParsing="false" onAction="#others" onMenuValidation="#others" style="-fx-font-size: 20px;" text="Others..." />
-        </items>
-         <font>
-            <Font size="20.0" />
-         </font>
-      </MenuButton>
-      <Label fx:id="info" layoutX="855.0" layoutY="373.0" prefHeight="55.0" prefWidth="185.0" text="Write your own extension without dot e.g. &quot;myextension&quot;" textAlignment="CENTER" textFill="#ebe1fa" visible="false" wrapText="true" />
-      <TextField fx:id="extensionText" alignment="CENTER" layoutX="594.0" layoutY="367.0" prefHeight="61.0" prefWidth="170.0" visible="false">
-         <font>
-            <Font size="20.0" />
-         </font></TextField>
-      <Button fx:id="backButton" layoutX="771.0" layoutY="367.0" mnemonicParsing="false" onAction="#goBack" prefHeight="61.0" prefWidth="70.0" styleClass="backButton" text="Back" visible="false">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
-      <PasswordField fx:id="passwordField" layoutX="376.0" layoutY="437.0" prefHeight="61.0" prefWidth="465.0" promptText="Password" styleClass="passwordField" visible="false">
-         <font>
-            <Font size="20.0" />
-         </font></PasswordField>
-   </children>
+      </items>
+        <font>
+          <Font size="20.0" />
+        </font>
+    </MenuButton>
+    <Label fx:id="info" layoutX="855.0" layoutY="443.0" prefHeight="55.0" prefWidth="185.0" text="Write your own extension without dot e.g. &quot;myextension&quot;" textAlignment="CENTER" textFill="#ebe1fa" visible="false" wrapText="true" />
+    <TextField fx:id="extensionText" alignment="CENTER" layoutX="594.0" layoutY="437.0" prefHeight="61.0" prefWidth="170.0" visible="false">
+        <font>
+          <Font size="20.0" />
+        </font>
+    </TextField>
+    <Button fx:id="backButton" layoutX="771.0" layoutY="437.0" mnemonicParsing="false" onAction="#goBack" prefHeight="61.0" prefWidth="70.0" styleClass="backButton" text="Back" visible="false">
+        <font>
+          <Font size="20.0" />
+        </font>
+    </Button>
+    <PasswordField fx:id="passwordField" layoutX="376.0" layoutY="507.0" prefHeight="61.0" prefWidth="465.0" promptText="Password" styleClass="passwordField" visible="false">
+        <font>
+          <Font size="20.0" />
+        </font>
+    </PasswordField>
+    <ImageView fitHeight="182.0" fitWidth="783.0" layoutX="288.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" styleClass="logoImage">
+        <Image url="@LOGO.png" />
+    </ImageView>
 </AnchorPane>

@@ -2,7 +2,6 @@ package org.decompression;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InvalidObjectException;
 import java.io.RandomAccessFile;
 
 public class CheckOutput {
@@ -12,7 +11,7 @@ public class CheckOutput {
     byte  sum;
     boolean encryption;
     byte compLevel;
-    RandomAccessFile input;
+    final RandomAccessFile input;
     int sumInt;
     public CheckOutput(RandomAccessFile file) throws IOException {
         this.input = file;
@@ -78,13 +77,11 @@ public class CheckOutput {
         this.last = (byte)tmp;
     }
     public int checkSum() throws IOException {
-//        int x ;
         long cntr = 0;
         input.seek(0);
         try {
             long len = input.length();
             for (int i = 0; i < 2; i++) {
-    //            x = input.readByte();
                 sumInt = input.readByte() ^ sumInt;
                 sumInt ^= 0xFF;
                 sumInt ^= 0b11111111;
@@ -94,7 +91,6 @@ public class CheckOutput {
             input.seek(input.getFilePointer() + 1);
 
             for(cntr = 3; cntr < len; cntr++) {
-//                x = input.readByte();
                 sumInt = input.readByte() ^ sumInt;
                 sumInt ^= 0xFF;
                 sumInt ^= 0b11111111;
@@ -103,7 +99,6 @@ public class CheckOutput {
         } catch (IOException e) {
             throw new IOException("Warning! There was an I/O error while checking input file integrity.");
         }
-        // do usunięcia
         System.out.println(sumInt);
         System.out.println(cntr);
         if(sumInt == 69) {

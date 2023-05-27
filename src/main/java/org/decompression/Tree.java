@@ -2,10 +2,6 @@ package org.decompression;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
-// todo:  naprawić decode()
-//      - testy
-//      - sprawdzić to tak, że wszędzie robić sout na union.A i union.B
-//      - javaFX i diagram
 public class Tree{
     public Tree(RandomAccessFile file, RandomAccessFile output) throws IOException {
         CheckOutput check = new CheckOutput(file);
@@ -30,12 +26,6 @@ public class Tree{
     //int indexTree;
     public Tree() {
     }
-
-    /*
-    private void add(byte value) {
-        root = addRecursive(root, value);
-    }
-     */
     private Node addRecursive(Node root, byte value) {
         if(root == null) {
             root = new Node();
@@ -97,12 +87,6 @@ public class Tree{
         return null;
 
     }
-    /*
-    public void writeTree() {
-        writeNode(root, 0);
-    }
-
-     */
     private void writeNode(Node root,  int i) {
         if(root != null) {
             i++;
