@@ -141,32 +141,39 @@ public class TreeController  {
     }
     public void onDecompression() throws Exception {
         System.out.println(inputPath);
-        if(!menuButton.isVisible()) {
-            if(!extensionText.getText().isEmpty()) {
-                nameFile = nameFile + "." + extensionText.getText();
+        if(inputPath != null) {
+            textArea.setStyle("-fx-border-color: #5e10d9");
+            if(!menuButton.isVisible()) {
+                if(!extensionText.getText().isEmpty()) {
+                    nameFile = nameFile + "." + extensionText.getText();
+                    boolean isEncrypted = CheckOutput.isEncryptRequired(inputPath);
+                    System.out.println("Encrytpion: " + isEncrypted);
+                    goToDecompression(inputPath, nameFile, passwordField.getText());
+                } else {
+                    menuButton.setVisible(true);
+                    extensionText.setVisible(false);
+                    backButton.setVisible(false);
+                    info.setVisible(false);
+                }
+            } else {
                 boolean isEncrypted = CheckOutput.isEncryptRequired(inputPath);
                 System.out.println("Encrytpion: " + isEncrypted);
-                goToDecompression(inputPath, nameFile, passwordField.getText());
-            } else {
-                menuButton.setVisible(true);
-                extensionText.setVisible(false);
-                backButton.setVisible(false);
-                info.setVisible(false);
+                if(isEncrypted) {
+                    PauseTransition delay1 = new PauseTransition(Duration.seconds(0.3));
+                    delay1.setOnFinished(e -> showPasswordField());
+                    delay1.play();
+                    moveButtonAnimation();
+                    passwordRequired();
+                } else {
+                    goToDecompression(inputPath, nameFile, passwordField.getText());
+                }
             }
         } else {
-            boolean isEncrypted = CheckOutput.isEncryptRequired(inputPath);
-            System.out.println("Encrytpion: " + isEncrypted);
-            if(isEncrypted) {
-                PauseTransition delay1 = new PauseTransition(Duration.seconds(0.3));
-                delay1.setOnFinished(e -> showPasswordField());
-                delay1.play();
-                moveButtonAnimation();
-                passwordRequired();
-            } else {
-                goToDecompression(inputPath, nameFile, passwordField.getText());
-            }
-
+            textArea.setStyle("-fx-border-color: RED");
         }
+
+
+
     }
     public void goToDecompression(String inputFile, String outputFile, String password) throws Exception {
         Stage stage = (Stage) container.getScene().getWindow();

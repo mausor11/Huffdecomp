@@ -14,7 +14,7 @@
          <opaqueInsets>
             <Insets />
          </opaqueInsets></Button>
-      <Button id="decompress" fx:id="decompress" layoutX="376.0" layoutY="437.0" mnemonicParsing="false" onAction="#onDecompression"  prefHeight="61.0" prefWidth="465.0" text="Decompress" textFill="#ebe1fa">
+      <Button id="decompress" fx:id="decompress" layoutX="376.0" layoutY="437.0" mnemonicParsing="false" onAction="#onDecompression" prefHeight="61.0" prefWidth="465.0" text="Decompress" textFill="#ebe1fa">
          <font>
             <Font size="20.0" />
          </font></Button>
@@ -43,12 +43,12 @@
             <Font size="20.0" />
          </font>
       </MenuButton>
-      <Label fx:id="info" layoutX="855.0" layoutY="373.0" prefHeight="55.0" prefWidth="185.0" text="Write your own extension without dot e.g. &quot;myextension&quot;" textAlignment="CENTER" visible="false" wrapText="true" />
-      <TextField fx:id="extensionText" alignment="CENTER" layoutX="594.0" layoutY="373.0" prefHeight="55.0" prefWidth="170.0" visible="false">
+      <Label fx:id="info" layoutX="855.0" layoutY="373.0" prefHeight="55.0" prefWidth="185.0" text="Write your own extension without dot e.g. &quot;myextension&quot;" textAlignment="CENTER" textFill="#ebe1fa" visible="false" wrapText="true" />
+      <TextField fx:id="extensionText" alignment="CENTER" layoutX="594.0" layoutY="367.0" prefHeight="61.0" prefWidth="170.0" visible="false">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <Button fx:id="backButton" layoutX="771.0" layoutY="373.0" mnemonicParsing="false" onAction="#goBack" prefHeight="55.0" prefWidth="70.0" text="Back" visible="false">
+      <Button fx:id="backButton" layoutX="771.0" layoutY="367.0" mnemonicParsing="false" onAction="#goBack" prefHeight="61.0" prefWidth="70.0" styleClass="backButton" text="Back" visible="false">
          <font>
             <Font size="20.0" />
          </font>
