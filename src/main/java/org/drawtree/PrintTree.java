@@ -3,59 +3,121 @@ package org.drawtree;
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Slider;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import org.decompression.Node;
-import org.decompression.Points;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
-
+import java.util.Vector;
 public class PrintTree extends Application {
-    final Node tree;
-    Map<Integer, Character> signs;
-    Points points;
-    int level = 1;
     final int MAX_WIDTH = 8000;
-    final int WIDTH = 1216;
-    final int HEIGHT = 800;
+    int heightRow = 300;
+    int circleSize = 100;
     final int MAX_HEIGHT = 8000;
+    int WIDTH = 1216;
+    int HEIGHT = 800;
     final double MIN_SCALE = 0.1;
-    final double MAX_SCALE = 10.0;
+    final double MAX_SCALE = 20.0;
+    GridPane root;
+    Pane netRoot;
+
     private final DoubleProperty scaleProperty = new SimpleDoubleProperty(1.0);
     private double lastX, lastY;
-
-    //parametry Circle
-    int sizeCircle;
-    int maxSize;
-    int centerX;
-    int centerY;
-    int u;
-    public PrintTree (Node tree) {
-        this.maxSize = 0;
+    final Node tree;
+    Vector<ArrayXY> signs = new Vector<>();
+    int allNodes;
+    int allLevels;
+    public PrintTree(Node tree) {
+        this.root = new GridPane();
+        this.netRoot = new Pane();
         this.tree = tree;
-        this.tree.writeTree(this.tree);
-        makeTreeList();
-        setCircleParametrs();
+        this.writeNodeAndLevel(this.tree, 0, 0);
+        this.allNodes = signs.size();
+        this.printNodeAndLevel();
+        this.checkIfChildren(this.tree);
     }
+    private int writeNodeAndLevel(Node root, int indexX, int level) {
+        if(root != null) {
+            indexX = writeNodeAndLevel(root.left, indexX, level + 1);
+            if(level > allLevels) {
+                allLevels = level;
+            }
+            ArrayXY arrayXY = new ArrayXY(level, (char) root.sign);
+            signs.add(arrayXY);
+            root.number = indexX++;
+            indexX = writeNodeAndLevel(root.right, indexX, level + 1);
+        }
+        return indexX;
+    }
+    private void printNodeAndLevel() {
+        for(int i=0; i<signs.size();i++) {
+            System.out.println("node: "+ i + " level: " + signs.get(i).getLevel() + " sign: " + signs.get(i).getSign());
+        }
+        System.out.println("allNodes: " + allNodes + " allLevels: " + allLevels);
+    }
+
     @Override
     public void start(Stage stage) {
-        stage.setTitle("Tree");
+        stage.setTitle("FixedTree");
         BackgroundFill backgroundFill = new BackgroundFill(Color.web("#0C021B"), null, null);
         Background background = new Background(backgroundFill);
-        Pane root = new Pane();
-        root.setBackground(background);
-        prepareTree(root);
+        prepareGrid();
+        //root.setBackground(background);
 
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
+        Pane sliderMenu = new Pane();
+        sliderMenu.setStyle("-fx-background-color: transparent");
+        Slider sliderHeightRow = new Slider(200, 1000, heightRow);
+        sliderHeightRow.valueProperty().addListener((observable, oldValue, newValue) -> {
+            heightRow = newValue.intValue();
+            prepareGrid();
+            this.netRoot.getChildren().clear();
+            checkIfChildren(this.tree);
+        });
+
+        sliderHeightRow.setPrefWidth(400);
+        sliderHeightRow.setLayoutX((WIDTH - 400)/2);
+        sliderHeightRow.setLayoutY(HEIGHT - 50);
+        sliderHeightRow.getStyleClass().add("slider");
+        sliderMenu.getChildren().add(sliderHeightRow);
+        stage.setMinWidth(sliderHeightRow.getPrefWidth() + 100);
+        stage.setMinHeight(110);
+        Group g2 = new Group();
+        //g2.getChildren().add(sliderMenu);
+        g2.getChildren().add(netRoot);
+        g2.getChildren().add(root);
+
+        Group g = new Group();
+        g.getChildren().add(netRoot);
+        g.getChildren().add(root);
+        g.getChildren().add(sliderMenu);
+        Scene scene = new Scene(g, WIDTH, HEIGHT);
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+
+        scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+            sliderMenu.getChildren().clear();
+            WIDTH = newWidth.intValue();
+            System.out.println(WIDTH + ";" + HEIGHT);
+            sliderHeightRow.setLayoutX((WIDTH - 400)/2);
+            sliderHeightRow.setLayoutY(HEIGHT - 50);
+            System.out.println(sliderHeightRow.getLayoutX() + "-" + sliderHeightRow.getLayoutY());
+            sliderMenu.getChildren().add(sliderHeightRow);
+        });
+        scene.heightProperty().addListener((obs, oldHeight, newHeight) -> {
+            sliderMenu.getChildren().clear();
+            HEIGHT = newHeight.intValue();
+            System.out.println(WIDTH + ";" + HEIGHT);
+            sliderHeightRow.setLayoutX((WIDTH - 400)/2);
+            sliderHeightRow.setLayoutY(HEIGHT - 50);
+            System.out.println(sliderHeightRow.getLayoutX() + "-" + sliderHeightRow.getLayoutY());
+            sliderMenu.getChildren().add(sliderHeightRow);
+        });
+
         scene.setOnMousePressed(event -> {
             lastX = event.getSceneX();
             lastY = event.getSceneY();
@@ -65,7 +127,9 @@ public class PrintTree extends Application {
             double deltaX = event.getSceneX() - lastX;
             double deltaY = event.getSceneY() - lastY;
 
+            netRoot.setTranslateX(netRoot.getTranslateX() + deltaX);
             root.setTranslateX(root.getTranslateX() + deltaX);
+            netRoot.setTranslateY(netRoot.getTranslateY() + deltaY);
             root.setTranslateY(root.getTranslateY() + deltaY);
 
             lastX = event.getSceneX();
@@ -84,106 +148,65 @@ public class PrintTree extends Application {
             scaleProperty.set(newScale);
 
             Scale scale = new Scale(scaleProperty.get(), scaleProperty.get());
+            netRoot.getTransforms().setAll(scale);
             root.getTransforms().setAll(scale);
 
             event.consume();
         });
         scene.setFill(Color.web("#0C021B"));
+        addToGridPane();
         stage.setScene(scene);
         stage.show();
     }
-    private void makeTreeList() {
-        if (tree == null) {
-            return;
+    private void prepareGrid() {
+        root.getColumnConstraints().clear();
+        root.getRowConstraints().clear();
+        int columnCount = allNodes;
+        int rowCount = allLevels;
+        root.setVgap(heightRow);
+        System.out.println("h: " + heightRow);
+        System.out.println("FIXED: " + columnCount + ";" + rowCount);
+        for(int i=0;i<columnCount;i++) {
+            root.getColumnConstraints().add(new ColumnConstraints());
         }
-        signs = new HashMap<>();
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(tree);
-        int index = 0;
-        int tmp = 0;
-        while (!queue.isEmpty()) {
-            int levelSize = queue.size();
-            boolean allNulls = true;
-            for (int i = 0; i < levelSize; i++) {
-                Node node = queue.poll();
-
-                if (node != null) {
-                    tmp++;
-                    signs.put(index, (char)node.sign);
-                    if (node.left != null) {
-                        queue.add(node.left);
-                        allNulls = false;
-                    } else {
-                        queue.add(null);
-                    }
-
-                    if (node.right != null) {
-                        queue.add(node.right);
-                        allNulls = false;
-                    } else {
-                        queue.add(null);
-                    }
-                } else {
-                    queue.add(null);
-                    queue.add(null);
-                }
-                index++;
-            }
-            if (allNulls) {
-                break;
-            }
-            if(tmp > this.maxSize) {
-                this.maxSize = tmp;
-            }
-            tmp = 0;
-            this.level++;
+        for(int i=0;i<rowCount;i++) {
+            root.getRowConstraints().add(new RowConstraints());
         }
-        System.out.println("max: " + this.maxSize);
+        root.setHgap(0);
     }
-    private void setCircleParametrs() {
-        double maxNodes = Math.pow(2,level-1);
-        this.sizeCircle = (int) (MAX_WIDTH/(2*maxNodes));
-        this.centerX = 2*(this.sizeCircle);
-        this.centerY = MAX_HEIGHT/level;
-
-    }
-    private void prepareTree(Pane root) {
-        points = new Points();
-        int tmpX;
-        int tmpY = centerY/2;
-        int tmpMath;
-        u = 0;
-        for (int j = 0; j < level-1; j++) {
-            tmpMath = (int) Math.pow(2,j);
-            tmpX = MAX_WIDTH/(tmpMath + 1);
-            for (int k = 0; k < tmpMath; k++) {
-                points.addPoint(tmpX,tmpY,u, (char)0);
-                u++;
-                root.getChildren().add(DrawCircle.newCircle(sizeCircle, tmpX, tmpY, (char)0, 0));
-
-                tmpX += MAX_WIDTH/(tmpMath + 1);
-            }
-            tmpY += centerY;
+    private void addToGridPane() {
+        for(int i=0;i<signs.size();i++) {
+            root.add(DrawCircle.newCircle(circleSize,signs.get(i).getSign()), i, signs.get(i).getLevel());
         }
-        tmpX = centerX/2;
-        tmpMath = (int) Math.pow(2,level-1);
-        for (int i = 0; i < tmpMath; i++) {
-            points.addPoint(tmpX,tmpY,u, (char)0);
-            u++;
-            root.getChildren().add(DrawCircle.newCircle(sizeCircle, tmpX, tmpY, (char)0, 0));
-            tmpX += centerX;
-        }
-        insertTree(root);
-        DrawLine.treeNet(root,points, signs);
-        insertTree(root);
     }
-    private void insertTree(Pane root) {
-        for(int i = 0;i < u; i++) {
-            if(signs.get(i) != null) {
-                root.getChildren().add(DrawCircle.newCircle(sizeCircle,points.coordinate.get(i).X, points.coordinate.get(i).Y, signs.get(i), 1));
-                points.coordinate.get(i).sign = signs.get(i); //jak nie dziala to przez to
+    int k = 0;
+    private void checkIfChildren(Node root) {
+        if(root != null) {
+            if(Node.hasLeftChildren(root)) {
+                Line line = new Line();
+                line.setStartX((root.number+1) * (2*circleSize) - circleSize);
+                line.setStartY(signs.get(root.number).getLevel() * (heightRow+(2*circleSize)) + circleSize);
+                line.setEndX((root.left.number + 1) * (2*circleSize) - circleSize);
+                line.setEndY(signs.get(root.left.number).getLevel() * (heightRow+(2*circleSize)) + circleSize);
+                line.setStroke(Color.web("white"));
+                line.setStrokeWidth(5);
+                netRoot.getChildren().add(line);
+                System.out.println("Node: " + root.number + "; leftChild: " + root.left.number);
             }
-
+            if(Node.hasRightChildren(root)) {
+                Line line = new Line();
+                line.setStartX((root.number+1) * (2*circleSize) - circleSize);
+                line.setStartY(signs.get(root.number).getLevel() * (heightRow+(2*circleSize)) + circleSize);
+                line.setEndX((root.right.number + 1) * (2*circleSize) - circleSize);
+                line.setEndY(signs.get(root.right.number).getLevel() * (heightRow+(2*circleSize)) + circleSize);
+                line.setStroke(Color.web("white"));
+                line.setStrokeWidth(5);
+                netRoot.getChildren().add(line);
+                System.out.println("Node: " + root.number + "; rightChild: " + root.right.number);
+            }
+            k++;
+            checkIfChildren(root.left);
+            checkIfChildren(root.right);
         }
     }
 

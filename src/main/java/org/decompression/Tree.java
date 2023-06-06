@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 public class Tree{
     public Tree(RandomAccessFile file, RandomAccessFile output) throws IOException {
-        CheckOutput check = new CheckOutput(file);
+        CheckInput check = new CheckInput(file);
         this.union = new Union();
         this.leaves = check.leaves;
         this.cntr = 8;

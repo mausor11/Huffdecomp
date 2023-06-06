@@ -11,6 +11,8 @@ public class Node{
     public Node right;
     final int k;
     final Array2D levels;
+    int level;
+    public int number;
     public Node() {
         this.sign = 0;
         this.counter = 0;
@@ -27,9 +29,25 @@ public class Node{
         if(root != null) {
             i++;
             levels.add(i, (char) root.sign);
-            System.out.println("====\tlevel " + i + "| ascii num:" + (char)root.sign + "; ascii char: " + (int)root.sign + "; count: " + root.counter + "; index: " + root.index);
             writeNode(root.left, i);
+            System.out.println("====\tlevel " + i + "| ascii num:" + (char)root.sign + "; ascii char: " + (int)root.sign + "; count: " + root.counter + "; index: " + root.index);
             writeNode(root.right, i);
+        }
+    }
+    public static int writeNodeAndLevel(Node root, int number, int level) {
+        if(root != null) {
+            number = writeNodeAndLevel(root.left, number, level +1);
+            root.number = number++;
+            root.level = level;
+            number = writeNodeAndLevel(root.right, number, level +1);
+        }
+        return number;
+    }
+    public static void printNodeAndLevel(Node root) {
+        if(root != null){
+            printNodeAndLevel(root.left);
+            System.out.println("Node: " + root.sign + ";Number: " + root.number + "; Level: " + root.level);
+            printNodeAndLevel(root.right);
         }
     }
     public Node printLevelOrder(Node root) {
@@ -72,6 +90,12 @@ public class Node{
         writeTree(root);
         System.out.println(q);
         return root;
+    }
+    public static boolean hasLeftChildren(Node root) {
+        return root != null && root.left != null;
+    }
+    public static boolean hasRightChildren(Node root) {
+        return root != null && root.right != null;
     }
 
 

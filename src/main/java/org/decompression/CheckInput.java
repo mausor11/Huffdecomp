@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-public class CheckOutput {
+public class CheckInput {
     short leaves;
     byte  flag;
     byte last;
@@ -13,7 +13,7 @@ public class CheckOutput {
     byte compLevel;
     final RandomAccessFile input;
     int sumInt;
-    public CheckOutput(RandomAccessFile file) throws IOException {
+    public CheckInput(RandomAccessFile file) throws IOException {
         this.input = file;
 
         file.seek(2);

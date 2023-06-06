@@ -148,7 +148,7 @@ public class TreeController  {
             if(!menuButton.isVisible()) {
                 if(!extensionText.getText().isEmpty()) {
                     nameFile = nameFile + "." + extensionText.getText();
-                    boolean isEncrypted = CheckOutput.isEncryptRequired(inputPath);
+                    boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
                     System.out.println("Encrytpion: " + isEncrypted);
                     goToDecompression(inputPath, nameFile, passwordField.getText());
                 } else {
@@ -158,7 +158,7 @@ public class TreeController  {
                     info.setVisible(false);
                 }
             } else {
-                boolean isEncrypted = CheckOutput.isEncryptRequired(inputPath);
+                boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
                 System.out.println("Encrytpion: " + isEncrypted);
                 if(isEncrypted) {
                     PauseTransition delay1 = new PauseTransition(Duration.seconds(0.3));
