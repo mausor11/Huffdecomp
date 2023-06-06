@@ -16,22 +16,20 @@ import org.decompression.Node;
 
 import java.util.Vector;
 public class PrintTree extends Application {
-    final int MAX_WIDTH = 8000;
     int heightRow = 300;
-    int circleSize = 100;
-    final int MAX_HEIGHT = 8000;
+    final int circleSize = 100;
     int WIDTH = 1216;
     int HEIGHT = 800;
     final double MIN_SCALE = 0.1;
     final double MAX_SCALE = 20.0;
-    GridPane root;
-    Pane netRoot;
+    final GridPane root;
+    final Pane netRoot;
 
     private final DoubleProperty scaleProperty = new SimpleDoubleProperty(1.0);
     private double lastX, lastY;
     final Node tree;
-    Vector<ArrayXY> signs = new Vector<>();
-    int allNodes;
+    final Vector<ArrayXY> signs = new Vector<>();
+    final int allNodes;
     int allLevels;
     public PrintTree(Node tree) {
         this.root = new GridPane();
@@ -64,11 +62,8 @@ public class PrintTree extends Application {
 
     @Override
     public void start(Stage stage) {
-        stage.setTitle("FixedTree");
-        BackgroundFill backgroundFill = new BackgroundFill(Color.web("#0C021B"), null, null);
-        Background background = new Background(backgroundFill);
+        stage.setTitle("HuffdecompFX");
         prepareGrid();
-        //root.setBackground(background);
 
         Pane sliderMenu = new Pane();
         sliderMenu.setStyle("-fx-background-color: transparent");
@@ -88,7 +83,6 @@ public class PrintTree extends Application {
         stage.setMinWidth(sliderHeightRow.getPrefWidth() + 100);
         stage.setMinHeight(110);
         Group g2 = new Group();
-        //g2.getChildren().add(sliderMenu);
         g2.getChildren().add(netRoot);
         g2.getChildren().add(root);
 

@@ -109,7 +109,6 @@ public class TreeController  {
         backButton.setVisible(false);
         info.setVisible(false);
     }
-    //todo: poprawić Label(jest czarny text), zmienić passwordField zeby byl pod decompress
     public void passwordRequired() {
         decompress.setOnAction(e ->  {
             try {
