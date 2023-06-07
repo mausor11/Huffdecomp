@@ -15,7 +15,7 @@
           <Insets />
         </opaqueInsets>
     </Button>
-    <Button id="decompress" fx:id="decompress" layoutX="376.0" layoutY="507.0" mnemonicParsing="false" onAction="#onDecompression" prefHeight="61.0" prefWidth="465.0" text="Decompress" textFill="#ebe1fa">
+    <Button id="decompress" fx:id="decompress" layoutX="376.0" layoutY="507.0" mnemonicParsing="false" onAction="#extensionRequired" prefHeight="61.0" prefWidth="465.0" text="Decompress" textFill="#ebe1fa">
         <font>
           <Font size="20.0" />
         </font>

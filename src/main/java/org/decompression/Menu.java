@@ -10,7 +10,7 @@ public class Menu extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //elo
-        stage.setTitle("Tree");
+        stage.setTitle("HuffdecompFX");
         Scene scene = new Scene(new FXMLLoader(Menu.class.getResource("menu.fxml")).load());
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(scene);
