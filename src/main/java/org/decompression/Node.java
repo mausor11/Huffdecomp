@@ -21,11 +21,11 @@ public class Node{
         this.k = 0;
         this.levels = new Array2D();
     }
-    public void writeTree(Node node) {
+    private void writeTree(Node node) {
         writeNode(node, 0);
 //        levels.print();
     }
-    public void writeNode(Node root,  int i) {
+    private void writeNode(Node root,  int i) {
         if(root != null) {
             i++;
             levels.add(i, (char) root.sign);
@@ -34,7 +34,7 @@ public class Node{
             writeNode(root.right, i);
         }
     }
-    public static int writeNodeAndLevel(Node root, int number, int level) {
+    private static int writeNodeAndLevel(Node root, int number, int level) {
         if(root != null) {
             number = writeNodeAndLevel(root.left, number, level +1);
             root.number = number++;
@@ -43,7 +43,7 @@ public class Node{
         }
         return number;
     }
-    public static void printNodeAndLevel(Node root) {
+    private static void printNodeAndLevel(Node root) {
         if(root != null){
             printNodeAndLevel(root.left);
             System.out.println("Node: " + root.sign + ";Number: " + root.number + "; Level: " + root.level);
