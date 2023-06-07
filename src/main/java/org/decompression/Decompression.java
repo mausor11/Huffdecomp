@@ -38,7 +38,7 @@ public class Decompression {
             System.out.println("Decompressor works only with 8-bit compressed files!");
         }
     }
-    public void XOR() throws IOException {
+    private void XOR() throws IOException {
         input.seek(6);
         short haslo = 0;
         for (int i = 0; i < password.length(); i++) {

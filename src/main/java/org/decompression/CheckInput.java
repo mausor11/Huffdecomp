@@ -59,7 +59,7 @@ public class CheckInput {
         }
         return false;
     }
-    public void checkFlag() {
+    private void checkFlag() {
         byte maskSzyfr = 0b00100000;
         byte maskMask =  0b00001111;
         byte maskComp =  (byte)0b11000000;
@@ -76,7 +76,7 @@ public class CheckInput {
         tmp = flag & maskMask;
         this.last = (byte)tmp;
     }
-    public int checkSum() throws IOException {
+    private int checkSum() throws IOException {
         long cntr = 0;
         input.seek(0);
         try {

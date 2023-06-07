@@ -12,7 +12,7 @@ public class DrawCircle {
     final int size;
     final char sign;
 
-    public DrawCircle(int size, char sign) {
+    private DrawCircle(int size, char sign) {
         this.size = size;
         this.sign = sign;
         circle = new Circle();

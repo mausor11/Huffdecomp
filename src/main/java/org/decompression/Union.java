@@ -10,7 +10,7 @@ public class Union {
     public static int bit(byte resource, int which) {
         return (resource >> which) & 1;
     }
-    public static byte bits(byte b, int numBits) {
+    private static byte bits(byte b, int numBits) {
         int mask = (1 << numBits) - 1;
         int shift = Byte.SIZE - numBits;
         return (byte) ((b & (mask << shift)) >>> shift);

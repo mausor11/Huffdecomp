@@ -110,7 +110,7 @@ public class TreeController  {
         info.setVisible(false);
     }
     //todo: poprawić Label(jest czarny text), zmienić passwordField zeby byl pod decompress
-    public void passwordRequired() {
+    private void passwordRequired() {
         decompress.setOnAction(e ->  {
             try {
                 if(passwordField.getText().isEmpty()) {
@@ -125,7 +125,7 @@ public class TreeController  {
 
     }
 
-    public void moveButtonAnimation() {
+    private void moveButtonAnimation() {
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.3));
         translateTransition.setNode(decompress);
         translateTransition.setToY(70);
@@ -133,7 +133,7 @@ public class TreeController  {
 
 
     }
-    public void showPasswordField() {
+    private void showPasswordField() {
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.3));
         fadeTransition.setNode(passwordField);
         passwordField.setVisible(true);
@@ -177,7 +177,7 @@ public class TreeController  {
 
 
     }
-    public void goToDecompression(String inputFile, String outputFile, String password) throws Exception {
+    private void goToDecompression(String inputFile, String outputFile, String password) throws Exception {
         Stage stage = (Stage) container.getScene().getWindow();
         AnchorPane root = (AnchorPane) container.getScene().getRoot();
         root.getChildren().clear();

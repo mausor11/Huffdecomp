@@ -13,7 +13,7 @@ public class DrawLine {
     final int startY;
     final int endX;
     final int endY;
-    public DrawLine(int startX, int startY, int endX, int endY) {
+    private DrawLine(int startX, int startY, int endX, int endY) {
         this.startX = startX;
         this.startY = startY;
         this.endX = endX;
@@ -26,7 +26,7 @@ public class DrawLine {
         line.setStroke(Color.web("#7B728B"));
         line.setStrokeWidth(20);
     }
-    public static Line newLine(int startX, int startY, int endX, int endY) {
+    private static Line newLine(int startX, int startY, int endX, int endY) {
         DrawLine drawLine = new DrawLine(startX, startY, endX, endY);
         return drawLine.line;
     }
