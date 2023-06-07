@@ -1,8 +1,8 @@
 package org.drawtree;
 
 public class ArrayXY {
-    private int level;
-    private char sign;
+    private final int level;
+    private final char sign;
     public ArrayXY(int level, char sign) {
         this.level = level;
         this.sign = sign;
@@ -12,9 +12,5 @@ public class ArrayXY {
     }
     public char getSign() {
         return sign;
-    }
-    public void add(int level, char sign) {
-        this.level = level;
-        this.sign = sign;
     }
 }

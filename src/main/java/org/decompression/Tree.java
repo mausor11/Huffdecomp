@@ -26,21 +26,6 @@ public class Tree{
     //int indexTree;
     public Tree() {
     }
-    private Node addRecursive(Node root, byte value) {
-        if(root == null) {
-            root = new Node();
-            root.sign = value;
-            return root;
-        }
-        if(root.sign < value) {
-            root.left = addRecursive(root.left, value);
-        } else if (root.sign > value) {
-            root.right = addRecursive(root.right, value);
-        } else {
-            root.counter++;
-        }
-        return root;
-    }
     public void readtree(RandomAccessFile file) throws IOException{
         file.seek(6);
         union.A = file.readByte();
@@ -86,14 +71,6 @@ public class Tree{
         }
         return null;
 
-    }
-    private void writeNode(Node root,  int i) {
-        if(root != null) {
-            i++;
-            System.out.println("====\tlevel " + i + "| ascii num:" + (char)root.sign + "; ascii char: " + (int)root.sign + "; count: " + root.counter);
-            writeNode(root.left, i);
-            writeNode(root.right, i);
-        }
     }
     public void decodefile() throws IOException {
         lastroot = decodeFile(root);
@@ -147,17 +124,14 @@ public class Tree{
 
                 this.cntr--;
                 nroot = nroot.left;
-                if(nroot.counter != 0) {
-                    return nroot;
-                }
             } else {
                 union.moveBits(1);
 
                 this.cntr--;
                 nroot = nroot.right;
-                if(nroot.counter != 0) {
-                    return nroot;
-                }
+            }
+            if(nroot.counter != 0) {
+                return nroot;
             }
         }
         return nroot;

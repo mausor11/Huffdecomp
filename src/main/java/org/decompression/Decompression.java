@@ -16,18 +16,14 @@ public class Decompression {
         }
         this.tree = tree;
         this.tree.readtree(input);
-        this.cntr = tree.cntr;
-        this.union = tree.union;
         this.input = tree.input;
         this.compLevel = tree.compLevel;
     }
     RandomAccessFile input;
     RandomAccessFile output;
-    int cntr;
     String password;
     int compLevel;
     boolean encryption;
-    Union union;
     Tree tree;
     public void decode() throws IOException{
         if(compLevel == 1) {
@@ -45,13 +41,11 @@ public class Decompression {
             haslo ^= password.charAt(i);
         }
         byte tmp;
-        //todo: to jest do poprawy (nie podoba mi się to)
         long fileLength = input.length() - 6;
         long y;
         input.seek(6);
         try {
             for (y = 0; y < fileLength; y++) {
-                //input.seek(6 + y)
                 tmp = input.readByte();
                 tmp ^= haslo;
                 input.seek(input.getFilePointer() - 1);

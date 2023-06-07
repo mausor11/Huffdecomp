@@ -25,7 +25,7 @@ public class Node{
         writeNode(node, 0);
 //        levels.print();
     }
-    private void writeNode(Node root,  int i) {
+    public void writeNode(Node root,  int i) {
         if(root != null) {
             i++;
             levels.add(i, (char) root.sign);
@@ -34,7 +34,7 @@ public class Node{
             writeNode(root.right, i);
         }
     }
-    private static int writeNodeAndLevel(Node root, int number, int level) {
+    public static int writeNodeAndLevel(Node root, int number, int level) {
         if(root != null) {
             number = writeNodeAndLevel(root.left, number, level +1);
             root.number = number++;
@@ -43,14 +43,14 @@ public class Node{
         }
         return number;
     }
-    private static void printNodeAndLevel(Node root) {
+    public static void printNodeAndLevel(Node root) {
         if(root != null){
             printNodeAndLevel(root.left);
             System.out.println("Node: " + root.sign + ";Number: " + root.number + "; Level: " + root.level);
             printNodeAndLevel(root.right);
         }
     }
-    private Node printLevelOrder(Node root) {
+    public Node printLevelOrder(Node root) {
         int index = 0;
         if(root == null) {
             return null;
