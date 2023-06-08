@@ -13,4 +13,7 @@
     -fx-border-radius: 25px;
     -fx-border-color: #ebe1fa;
 }
+.screen {
+    -fx-background-color: #0C021B;
+}
 

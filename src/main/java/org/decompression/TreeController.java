@@ -3,12 +3,14 @@ package org.decompression;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.drawtree.LoadingScreen;
 import org.drawtree.PrintTree;
 
 import java.io.File;
@@ -208,10 +210,23 @@ public class TreeController  {
         Stage stage = (Stage) container.getScene().getWindow();
         AnchorPane root = (AnchorPane) container.getScene().getRoot();
         root.getChildren().clear();
-
         Decompression decompression = new Decompression(inputFile, outputFile, password);
-        decompression.decode();
-        PrintTree printTree = new PrintTree(decompression.tree.root);
-        printTree.start(stage);
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                decompression.decode();
+                return null;
+            }
+        };
+        task.setOnRunning(event -> {
+            LoadingScreen loadingScreen = new LoadingScreen();
+            loadingScreen.start(stage);
+        });
+        task.setOnSucceeded(event -> {
+            PrintTree printTree = new PrintTree(decompression.tree.root);
+            printTree.start(stage);
+        });
+        new Thread(task).start();
+
     }
 }
