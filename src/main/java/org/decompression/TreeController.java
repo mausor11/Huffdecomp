@@ -35,6 +35,7 @@ public class TreeController  {
     private Button decompress;
     @FXML
     private PasswordField passwordField;
+    private String exten;
     public void setItem() {
         fileChooser.setTitle("Choose file");
         File file = fileChooser.showOpenDialog(null);
@@ -53,47 +54,47 @@ public class TreeController  {
     }
     public void txt() {
         menuButton.setText("txt");
-        nameFile = nameFile + ".txt";
+        exten =  ".txt";
     }
 
     public void doc() {
         menuButton.setText("doc");
-        nameFile = nameFile + ".doc";
+        exten =  ".doc";
     }
 
     public void docx() {
         menuButton.setText("docx");
-        nameFile = nameFile + ".docx";
+        exten =  ".docx";
     }
 
     public void jpeg() {
         menuButton.setText("jpeg");
-        nameFile = nameFile + ".jpeg";
+        exten =  ".jpeg";
     }
 
     public void png() {
         menuButton.setText("png");
-        nameFile = nameFile + ".png";
+        exten =  ".png";
     }
 
     public void gif() {
         menuButton.setText("gif");
-        nameFile = nameFile + ".gif";
+        exten =  ".gif";
     }
 
     public void mp3() {
         menuButton.setText("mp3");
-        nameFile = nameFile + ".mp3";
+        exten =  ".mp3";
     }
 
     public void mp4() {
         menuButton.setText("mp4");
-        nameFile = nameFile + ".mp4";
+        exten =  ".mp4";
     }
 
     public void mov() {
         menuButton.setText("mov");
-        nameFile = nameFile + ".mov";
+        exten =  ".mov";
     }
 
     public void others() {
@@ -117,7 +118,8 @@ public class TreeController  {
                     passwordField.setStyle("-fx-border-color: RED");
                 }
                 else {
-                    onDecompression(/*inputPath, nameFile, passwordField.getText()*/);
+                    nameFile = nameFile + exten;
+                    goToDecompression(inputPath, nameFile, passwordField.getText());
 
                 }
             } catch (Exception ex) {
@@ -126,24 +128,20 @@ public class TreeController  {
         });
 
     }
-
-    public void extensionRequired() {
-        decompress.setOnAction(e ->  {
-            try {
-                if (menuButton.getText().equals("Extension")) {
-                    menuButton.setStyle("-fx-border-color: RED");
-                }
-                else {
-                    onDecompression(/*inputPath, nameFile, passwordField.getText()*/);
-
-                }
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
+/*
+    private void extensionRequired() {
+        try {
+            if (menuButton.getText().equals("Extension")) {
+                menuButton.setStyle("-fx-border-color: RED");
             }
-        });
-
-    }
-
+            else {
+                goToDecompression(inputPath, nameFile, passwordField.getText());
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+}
+*/
 
 
     private void moveButtonAnimation() {
@@ -162,7 +160,7 @@ public class TreeController  {
         fadeTransition.setToValue(1);
         fadeTransition.play();
     }
-    private void onDecompression() throws Exception {
+    public void onDecompression() throws Exception {
         System.out.println(inputPath);
         if(inputPath != null) {
             textArea.setStyle("-fx-border-color: #5e10d9");
@@ -171,7 +169,7 @@ public class TreeController  {
                 if(!extensionText.getText().isEmpty()) {
                     nameFile = nameFile + "." + extensionText.getText();
                     boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
-                    System.out.println("Encrytpion: " + isEncrypted);
+                    System.out.println("Encryption: " + isEncrypted);
                     goToDecompression(inputPath, nameFile, passwordField.getText());
                 } else {
                     menuButton.setVisible(true);
@@ -182,14 +180,20 @@ public class TreeController  {
             } else {
                 System.out.println("b");
                 boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
-                System.out.println("Encrytpion: " + isEncrypted);
-                if(isEncrypted) {
+                System.out.println("Encryption: " + isEncrypted);
+                if(exten == null) {
+                    PauseTransition del = new PauseTransition(Duration.seconds((0.3)));
+                    del.setOnFinished(e -> menuButton.setStyle("-fx-border-color: RED"));
+                    del.play();
+                }
+                else if(isEncrypted) {
                     PauseTransition delay1 = new PauseTransition(Duration.seconds(0.3));
                     delay1.setOnFinished(e -> showPasswordField());
                     delay1.play();
                     passwordRequired();
                     moveButtonAnimation();
                 } else {
+                    nameFile = nameFile + exten;
                     goToDecompression(inputPath, nameFile, passwordField.getText());
                 }
             }
