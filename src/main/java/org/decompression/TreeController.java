@@ -3,7 +3,10 @@ package org.decompression;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -13,9 +16,11 @@ import javafx.util.Duration;
 import org.drawtree.LoadingScreen;
 import org.drawtree.PrintTree;
 
+
+
 import java.io.File;
 
-public class TreeController  {
+public class TreeController {
     final FileChooser fileChooser = new FileChooser();
     String inputPath;
     String nameFile;
@@ -38,10 +43,13 @@ public class TreeController  {
     @FXML
     private PasswordField passwordField;
     private String exten;
+
+
     public void setItem() {
         fileChooser.setTitle("Choose file");
         File file = fileChooser.showOpenDialog(null);
         menuButton.setText("Extension");
+        changedFile();
         if(file != null ) {
             textArea.setText(file.getAbsolutePath());
             inputPath = file.getAbsolutePath();
@@ -154,6 +162,15 @@ public class TreeController  {
 
 
     }
+
+    private void hideButtonAnimation() {
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.3));
+        translateTransition.setNode(decompress);
+        translateTransition.setToY(0);
+        translateTransition.play();
+
+
+    }
     private void showPasswordField() {
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.3));
         fadeTransition.setNode(passwordField);
@@ -162,6 +179,31 @@ public class TreeController  {
         fadeTransition.setToValue(1);
         fadeTransition.play();
     }
+
+    private void hidePasswordField() {
+        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.3));
+        fadeTransition.setNode(passwordField);
+        passwordField.setVisible(false);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.play();
+    }
+
+    public void changedFile() {
+        textArea.textProperty().addListener((observableValue, s, t1) -> {
+            hidePasswordField();
+            hideButtonAnimation();
+            decompress.setOnAction(e -> {
+                try {
+                    onDecompression();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+        });
+
+    }
+
     public void onDecompression() throws Exception {
         System.out.println(inputPath);
         if(inputPath != null) {

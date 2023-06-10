@@ -18,7 +18,7 @@ public class LoadingScreen extends Application {
 
     @Override
     public void start(Stage stage) {
-        stage.setTitle("Tree");
+        stage.setTitle("Huffdecomp");
         AnchorPane root = new AnchorPane();
         root.getStyleClass().add("screen");
         LinearGradient linearGradient = new LinearGradient(0, 0, 0.5, 0.5, true, CycleMethod.NO_CYCLE, new Stop(0, Color.web("#5e10d9")), new Stop(1, Color.web("transparent")));

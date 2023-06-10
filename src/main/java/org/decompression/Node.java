@@ -21,7 +21,7 @@ public class Node{
         this.k = 0;
         this.levels = new Array2D();
     }
-    private void writeTree(Node node) {
+    public void writeTree(Node node) {
         writeNode(node, 0);
 //        levels.print();
     }

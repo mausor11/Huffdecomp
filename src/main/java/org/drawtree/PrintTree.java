@@ -62,7 +62,7 @@ public class PrintTree extends Application {
 
     @Override
     public void start(Stage stage) {
-        stage.setTitle("HuffdecompFX");
+        stage.setTitle("Huffdecomp");
         prepareGrid();
 
         Pane sliderMenu = new Pane();
