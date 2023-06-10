@@ -36,7 +36,7 @@ public class CheckInput {
         leaves += tmp1;
         checkFlag();
     }
-    static boolean isEncryptRequired(String fileName) throws IOException {
+    public static boolean isEncryptRequired(String fileName) throws IOException {
         try {
             RandomAccessFile file = new RandomAccessFile(fileName, "r");
             byte maskEncrypt = 0b00100000;

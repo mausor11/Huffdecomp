@@ -1,7 +1,6 @@
 package org.decompression;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class Node{
     public int index;
@@ -10,25 +9,24 @@ public class Node{
     public Node left;
     public Node right;
     final int k;
-    final Array2D levels;
     int level;
     public int number;
+
+
     public Node() {
         this.sign = 0;
         this.counter = 0;
         this.left = null;
         this.right = null;
         this.k = 0;
-        this.levels = new Array2D();
     }
-    public void writeTree(Node node) {
+    private void writeTree(Node node) {
         writeNode(node, 0);
 //        levels.print();
     }
     private void writeNode(Node root,  int i) {
         if(root != null) {
             i++;
-            levels.add(i, (char) root.sign);
             writeNode(root.left, i);
             System.out.println("====\tlevel " + i + "| ascii num:" + (char)root.sign + "; ascii char: " + (int)root.sign + "; count: " + root.counter + "; index: " + root.index);
             writeNode(root.right, i);
@@ -50,7 +48,7 @@ public class Node{
             printNodeAndLevel(root.right);
         }
     }
-    public Node printLevelOrder(Node root) {
+    private Node printLevelOrder(Node root) {
         int index = 0;
         if(root == null) {
             return null;

@@ -138,20 +138,6 @@ public class TreeController {
         });
 
     }
-/*
-    private void extensionRequired() {
-        try {
-            if (menuButton.getText().equals("Extension")) {
-                menuButton.setStyle("-fx-border-color: RED");
-            }
-            else {
-                goToDecompression(inputPath, nameFile, passwordField.getText());
-            }
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-}
-*/
 
 
     private void moveButtonAnimation() {
@@ -159,8 +145,6 @@ public class TreeController {
         translateTransition.setNode(decompress);
         translateTransition.setToY(70);
         translateTransition.play();
-
-
     }
 
     private void hideButtonAnimation() {
@@ -168,9 +152,8 @@ public class TreeController {
         translateTransition.setNode(decompress);
         translateTransition.setToY(0);
         translateTransition.play();
-
-
     }
+
     private void showPasswordField() {
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.3));
         fadeTransition.setNode(passwordField);
@@ -189,7 +172,7 @@ public class TreeController {
         fadeTransition.play();
     }
 
-    public void changedFile() {
+    private void changedFile() {
         textArea.textProperty().addListener((observableValue, s, t1) -> {
             hidePasswordField();
             hideButtonAnimation();
@@ -209,7 +192,7 @@ public class TreeController {
         if(inputPath != null) {
             textArea.setStyle("-fx-border-color: #5e10d9");
             if(!menuButton.isVisible()) {
-                System.out.println("a");
+                //System.out.println("a");
                 if(!extensionText.getText().isEmpty()) {
                     nameFile = nameFile + "." + extensionText.getText();
                     boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
@@ -222,7 +205,7 @@ public class TreeController {
                     info.setVisible(false);
                 }
             } else {
-                System.out.println("b");
+                //System.out.println("b");
                 boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
                 System.out.println("Encryption: " + isEncrypted);
                 if(exten == null) {

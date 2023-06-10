@@ -20,7 +20,7 @@
           <Font size="20.0" />
         </font>
     </Button>
-    <TextArea fx:id="textArea" layoutX="594.0" layoutY="368.0" prefHeight="55.0" prefWidth="247.0" onInputMethodTextChanged="#changedFile" promptText="Selected file" styleClass="textArea">
+    <TextArea fx:id="textArea" layoutX="594.0" layoutY="368.0" prefHeight="55.0" prefWidth="247.0"  promptText="Selected file" styleClass="textArea">
         <font>
           <Font size="20.0" />
         </font>

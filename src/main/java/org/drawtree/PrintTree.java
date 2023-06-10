@@ -31,6 +31,23 @@ public class PrintTree extends Application {
     final Vector<ArrayXY> signs = new Vector<>();
     final int allNodes;
     int allLevels;
+
+// klasa-typ punkt do węzłów
+    private class ArrayXY {
+        private final int level;
+        private final char sign;
+        public ArrayXY(int level, char sign) {
+            this.level = level;
+            this.sign = sign;
+        }
+        public int getLevel() {
+            return level;
+        }
+        public char getSign() {
+            return sign;
+        }
+    }
+
     public PrintTree(Node tree) {
         this.root = new GridPane();
         this.netRoot = new Pane();
