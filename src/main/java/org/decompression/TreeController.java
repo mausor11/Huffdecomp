@@ -1,12 +1,8 @@
 package org.decompression;
-
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -15,7 +11,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.drawtree.LoadingScreen;
 import org.drawtree.PrintTree;
-
+import org.menuButton.*;
 
 
 import java.io.File;
@@ -24,6 +20,7 @@ public class TreeController {
     final FileChooser fileChooser = new FileChooser();
     String inputPath;
     String nameFile;
+    ButtonStatus status;
     @FXML
     private Button button;
     @FXML
@@ -63,48 +60,49 @@ public class TreeController {
 
     }
     public void txt() {
-        menuButton.setText("txt");
-        exten =  ".txt";
+        status = new txt();
+        exten = status.changeExtension(menuButton);
     }
 
+
     public void doc() {
-        menuButton.setText("doc");
-        exten =  ".doc";
+        status = new doc();
+        exten = status.changeExtension(menuButton);
     }
 
     public void docx() {
-        menuButton.setText("docx");
-        exten =  ".docx";
+        status = new docx();
+        exten = status.changeExtension(menuButton);
     }
 
     public void jpeg() {
-        menuButton.setText("jpeg");
-        exten =  ".jpeg";
+        status = new jpeg();
+        exten = status.changeExtension(menuButton);
     }
 
     public void png() {
-        menuButton.setText("png");
-        exten =  ".png";
+        status = new png();
+        exten = status.changeExtension(menuButton);
     }
 
     public void gif() {
-        menuButton.setText("gif");
-        exten =  ".gif";
+        status = new gif();
+        exten = status.changeExtension(menuButton);
     }
 
     public void mp3() {
-        menuButton.setText("mp3");
-        exten =  ".mp3";
+        status = new mp3();
+        exten = status.changeExtension(menuButton);
     }
 
     public void mp4() {
-        menuButton.setText("mp4");
-        exten =  ".mp4";
+        status = new mp4();
+        exten = status.changeExtension(menuButton);
     }
 
     public void mov() {
-        menuButton.setText("mov");
-        exten =  ".mov";
+        status = new mov();
+        exten = status.changeExtension(menuButton);
     }
 
     public void others() {
@@ -205,7 +203,6 @@ public class TreeController {
                     info.setVisible(false);
                 }
             } else {
-                //System.out.println("b");
                 boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
                 System.out.println("Encryption: " + isEncrypted);
                 if(exten == null) {
