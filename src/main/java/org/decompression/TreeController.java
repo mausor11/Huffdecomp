@@ -18,9 +18,9 @@ import java.io.File;
 
 public class TreeController {
     final FileChooser fileChooser = new FileChooser();
-    String inputPath;
-    String nameFile;
-    ButtonStatus status;
+    private String inputPath;
+    private String nameFile;
+    private ButtonStatus status;
     @FXML
     private Button button;
     @FXML
@@ -50,7 +50,11 @@ public class TreeController {
         if(file != null ) {
             textArea.setText(file.getAbsolutePath());
             inputPath = file.getAbsolutePath();
-            nameFile = file.getName();
+            File fl = new File("Decompressed Files");
+            // do lekkiej poprawy
+            fl.mkdir();
+            nameFile = fl.getName() + "/" + file.getName();
+            System.out.println(nameFile);
             int ifDot = nameFile.lastIndexOf('.');
             if(ifDot != -1) {
                 nameFile = nameFile.substring(0, nameFile.lastIndexOf('.'));
