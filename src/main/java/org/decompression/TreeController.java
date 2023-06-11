@@ -233,11 +233,10 @@ public class TreeController {
         AnchorPane root = (AnchorPane) container.getScene().getRoot();
         root.getChildren().clear();
         Decompression decompression = new Decompression(inputFile, outputFile, password);
-        final boolean[] check = new boolean[1];
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                check[0] = decompression.decode();
+                decompression.decode();
                 return null;
             }
         };
@@ -246,13 +245,8 @@ public class TreeController {
             loadingScreen.start(stage);
         });
         task.setOnSucceeded(event -> {
-                if(check[0]) {
-                    PrintTree printTree = new PrintTree(decompression.tree.root);
-                    printTree.start(stage);
-                } else {
-                    WarningScreen warningScreen = new WarningScreen("Decompressor works only with 8-bit compressed files!");
-                    warningScreen.start(stage);
-                }
+            PrintTree printTree = new PrintTree(decompression.tree.root);
+            printTree.start(stage);
         });
         new Thread(task).start();
 
