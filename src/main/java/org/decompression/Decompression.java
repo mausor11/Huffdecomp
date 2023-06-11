@@ -25,13 +25,15 @@ public class Decompression {
     int compLevel;
     boolean encryption;
     Tree tree;
-    public void decode() throws IOException{
+    public boolean decode() throws IOException{
         if(compLevel == 1) {
             tree.decodefile();
             this.output.close();
             this.input.close();
+            return true;
         } else {
             System.out.println("Decompressor works only with 8-bit compressed files!");
+            return false;
         }
     }
     private void XOR() throws IOException {

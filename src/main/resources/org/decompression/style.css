@@ -41,8 +41,17 @@
     -fx-background-radius: 20px;
     -fx-border-width: 2px;
     -fx-border-radius: 20px;
-
 }
-.logoImage {
-
+.goBack {
+    -fx-background-color: transparent;
+    -fx-border-width: 3px;
+    -fx-border-color: #5e10d9;
+    -fx-border-radius: 5px;
+}
+.goBack:hover  {
+    -fx-background-color: #1f1134;
+    -fx-background-radius: 5px;
+    -fx-border-width: 3px;
+    -fx-border-color: #6f21e0;
+    -fx-border-radius: 5px;
 }

@@ -11,8 +11,6 @@ public class Main extends Application {
         launch();
 
     }
-
-
     @Override
     public void start(Stage stage) throws Exception {
         Image appIcon = new Image(getClass().getResourceAsStream("ICON2.png"));
