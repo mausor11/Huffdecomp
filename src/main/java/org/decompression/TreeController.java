@@ -2,6 +2,8 @@ package org.decompression;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,14 +15,18 @@ import org.drawtree.LoadingScreen;
 import org.drawtree.PrintTree;
 import org.menuButton.*;
 
-
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.io.File;
 
 public class TreeController {
     final FileChooser fileChooser = new FileChooser();
-    String inputPath;
-    String nameFile;
-    ButtonStatus status;
+    private String inputPath;
+    private String nameFile;
+    private ButtonStatus status;
     @FXML
     private Button button;
     @FXML
@@ -40,25 +46,24 @@ public class TreeController {
     @FXML
     private PasswordField passwordField;
     private String exten;
-
-
-    public void setItem() {
-        fileChooser.setTitle("Choose file");
-        File file = fileChooser.showOpenDialog(null);
-        menuButton.setText("Extension");
-        changedFile();
-        if(file != null ) {
-            textArea.setText(file.getAbsolutePath());
-            inputPath = file.getAbsolutePath();
-            nameFile = file.getName();
-            int ifDot = nameFile.lastIndexOf('.');
-            if(ifDot != -1) {
-                nameFile = nameFile.substring(0, nameFile.lastIndexOf('.'));
-            }
-
+    private final ChangeListener<String> zmianoSluchacz = new ChangeListener<>() {
+        @Override
+        public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+            System.out.println("textArea zmieniony tekst");
+            hidePasswordField();
+            hideButtonAnimation();
+            decompress.setOnAction(e -> {
+                try {
+                    onDecompression();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
         }
+    };
 
-    }
+
+    // pain
     public void txt() {
         status = new txt();
         exten = status.changeExtension(menuButton);
@@ -118,7 +123,7 @@ public class TreeController {
         backButton.setVisible(false);
         info.setVisible(false);
     }
-    //todo: poprawić Label(jest czarny text), zmienić passwordField zeby byl pod decompress
+
     private void passwordRequired() {
         decompress.setOnAction(e ->  {
             try {
@@ -137,7 +142,7 @@ public class TreeController {
 
     }
 
-
+    //animacje
     private void moveButtonAnimation() {
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.3));
         translateTransition.setNode(decompress);
@@ -170,22 +175,53 @@ public class TreeController {
         fadeTransition.play();
     }
 
-    private void changedFile() {
-        textArea.textProperty().addListener((observableValue, s, t1) -> {
-            hidePasswordField();
-            hideButtonAnimation();
-            decompress.setOnAction(e -> {
-                try {
-                    onDecompression();
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            });
-        });
+    //settery
 
+    private void changeData(File file) throws IOException {
+        if (file != null) {
+            inputPath = file.getAbsolutePath();
+            Path pth = Paths.get("Decompressed Files");
+            try {
+                if (!Files.exists(pth)) {
+                    Files.createDirectory(pth);
+                }
+            } catch (IOException e) {
+                throw new IOException(e);
+            }
+
+            nameFile = pth.getName(0) + "/" + file.getName();
+            int ifDot = nameFile.lastIndexOf('.');
+            if (ifDot != -1) {
+                nameFile = nameFile.substring(0, ifDot);
+            }
+        }
+    }
+
+    public void setItem() {
+        changedFile();
+        fileChooser.setTitle("Choose file");
+        File file = fileChooser.showOpenDialog(null);
+        if(file != null)
+            textArea.setText(file.getAbsolutePath());
+    }
+
+    //trochę głupie
+    @FXML
+    private void changedFile() {
+            //System.out.println("odpal changed file");
+            textArea.textProperty().removeListener(zmianoSluchacz);
+            textArea.textProperty().addListener(zmianoSluchacz);
     }
 
     public void onDecompression() throws Exception {
+        File fil = new File(textArea.getText());
+        try {
+            changeData(fil);
+        } catch (FileNotFoundException fe) {
+            throw new FileNotFoundException();
+        } catch (IOException ioe) {
+            throw new IOException(ioe);
+        }
         System.out.println(inputPath);
         if(inputPath != null) {
             textArea.setStyle("-fx-border-color: #5e10d9");
@@ -234,7 +270,7 @@ public class TreeController {
         root.getChildren().clear();
         Decompression decompression = new Decompression(inputFile, outputFile, password);
         final boolean[] check = new boolean[1];
-        Task<Void> task = new Task<Void>() {
+        Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 check[0] = decompression.decode();
