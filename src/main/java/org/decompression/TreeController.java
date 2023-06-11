@@ -48,7 +48,6 @@ public class TreeController {
     private final ChangeListener<String> zmianoSluchacz = new ChangeListener<>() {
         @Override
         public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-            //System.out.println("textArea zmieniony tekst");
             hidePasswordField();
             hideButtonAnimation();
             decompress.setOnAction(e -> {
@@ -141,7 +140,6 @@ public class TreeController {
 
     }
 
-    //animacje
     private void moveButtonAnimation() {
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.3));
         translateTransition.setNode(decompress);
@@ -174,7 +172,7 @@ public class TreeController {
         fadeTransition.play();
     }
 
-    //settery
+
 
     private void changeData(File file) throws IOException {
         if (file != null) {
@@ -300,6 +298,7 @@ public class TreeController {
 
         });
         new Thread(task).start();
+        decompression.XOR();
 
     }
 }
