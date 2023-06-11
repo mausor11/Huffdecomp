@@ -45,6 +45,7 @@ public class TreeController {
     @FXML
     private PasswordField passwordField;
     private String exten;
+    private boolean isEncrypted;
     private final ChangeListener<String> zmianoSluchacz = new ChangeListener<>() {
         @Override
         public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
@@ -62,59 +63,70 @@ public class TreeController {
 
 
     // pain
-    public void txt() {
+    @FXML
+    private void txt() {
         status = new txt();
         exten = status.changeExtension(menuButton);
     }
 
 
-    public void doc() {
+    @FXML
+    private void doc() {
         status = new doc();
         exten = status.changeExtension(menuButton);
     }
 
-    public void docx() {
+    @FXML
+    private void docx() {
         status = new docx();
         exten = status.changeExtension(menuButton);
     }
 
-    public void jpeg() {
+    @FXML
+    private void jpeg() {
         status = new jpeg();
         exten = status.changeExtension(menuButton);
     }
 
-    public void png() {
+    @FXML
+    private void png() {
         status = new png();
         exten = status.changeExtension(menuButton);
     }
 
-    public void gif() {
+    @FXML
+    private void gif() {
         status = new gif();
         exten = status.changeExtension(menuButton);
     }
 
-    public void mp3() {
+    @FXML
+    private void mp3() {
         status = new mp3();
         exten = status.changeExtension(menuButton);
     }
 
-    public void mp4() {
+    @FXML
+    private void mp4() {
         status = new mp4();
         exten = status.changeExtension(menuButton);
     }
 
-    public void mov() {
+    @FXML
+    private void mov() {
         status = new mov();
         exten = status.changeExtension(menuButton);
     }
 
-    public void others() {
+    @FXML
+    private void others() {
         menuButton.setVisible(false);
         extensionText.setVisible(true);
         backButton.setVisible(true);
         info.setVisible(true);
     }
-    public void goBack() {
+    @FXML
+    private void goBack() {
         menuButton.setVisible(true);
         menuButton.setText("Extension");
         extensionText.setVisible(false);
@@ -222,10 +234,11 @@ public class TreeController {
         if(inputPath != null) {
             textArea.setStyle("-fx-border-color: #5e10d9");
             try {
+                isEncrypted = CheckInput.isEncryptRequired(inputPath);
                 if(!menuButton.isVisible()) {
                     if(!extensionText.getText().isEmpty()) {
                         nameFile = nameFile + "." + extensionText.getText();
-                        CheckInput.isEncryptRequired(inputPath);
+                        //CheckInput.isEncryptRequired(inputPath);
                         goToDecompression(inputPath, nameFile, passwordField.getText());
                     } else {
                         menuButton.setVisible(true);
@@ -234,7 +247,6 @@ public class TreeController {
                         info.setVisible(false);
                     }
                 } else {
-                    boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
                     if(exten == null) {
                         PauseTransition del = new PauseTransition(Duration.seconds((0.3)));
                         del.setOnFinished(e -> menuButton.setStyle("-fx-border-color: RED"));
@@ -252,7 +264,7 @@ public class TreeController {
                     }
                 }
             } catch (EOFException | FileNotFoundException e) {
-                WarningScreen warningScreen = new WarningScreen("File not found!");
+                WarningScreen warningScreen = new WarningScreen("File not found or empty!");
                 warningScreen.start(StageSingleton.getStageInstance());
             }
 
@@ -298,7 +310,8 @@ public class TreeController {
 
         });
         new Thread(task).start();
-        decompression.XOR();
+        if(isEncrypted)
+            decompression.XOR();
 
     }
 }
