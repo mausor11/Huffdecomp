@@ -67,7 +67,7 @@ public class WarningScreen extends Application {
         group.getChildren().addAll(rectangle,background, textArea);
         root.getChildren().add(group);
         Button goBack = new Button();
-        goBack.setText("Powrót");
+        goBack.setText("Go back");
         goBack.setTextFill(Color.web("#5e10d9"));
         goBack.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         goBack.setPrefHeight(60);
@@ -92,7 +92,7 @@ public class WarningScreen extends Application {
 
     }
 
-    public static void main(String[] args) {
-        launch();
-    }
+    //public static void main(String[] args) {
+     //   launch();
+    //}
 }

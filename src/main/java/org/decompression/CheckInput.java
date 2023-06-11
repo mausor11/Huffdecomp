@@ -85,7 +85,7 @@ public class CheckInput {
                 sumInt = input.readByte() ^ sumInt;
                 sumInt ^= 0xFF;
                 sumInt ^= 0b11111111;
-                System.out.println(sumInt);
+                //System.out.println(sumInt);
                 cntr++;
             }
             input.seek(input.getFilePointer() + 1);
@@ -99,8 +99,8 @@ public class CheckInput {
         } catch (IOException e) {
             throw new IOException("Warning! There was an I/O error while checking input file integrity.");
         }
-        System.out.println(sumInt);
-        System.out.println(cntr);
+        //System.out.println(sumInt);
+        //System.out.println(cntr);
         if(sumInt == 69) {
             return 1;
         } else {

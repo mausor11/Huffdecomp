@@ -54,7 +54,7 @@ public class PrintTree extends Application {
         this.tree = tree;
         this.writeNodeAndLevel(this.tree, 0, 0);
         this.allNodes = signs.size();
-        this.printNodeAndLevel();
+        //this.printNodeAndLevel();
         this.checkIfChildren(this.tree);
     }
     private int writeNodeAndLevel(Node root, int indexX, int level) {
@@ -113,19 +113,19 @@ public class PrintTree extends Application {
         scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
             sliderMenu.getChildren().clear();
             WIDTH = newWidth.intValue();
-            System.out.println(WIDTH + ";" + HEIGHT);
+            //System.out.println(WIDTH + ";" + HEIGHT);
             sliderHeightRow.setLayoutX((WIDTH - 400)/2);
             sliderHeightRow.setLayoutY(HEIGHT - 50);
-            System.out.println(sliderHeightRow.getLayoutX() + "-" + sliderHeightRow.getLayoutY());
+            //System.out.println(sliderHeightRow.getLayoutX() + "-" + sliderHeightRow.getLayoutY());
             sliderMenu.getChildren().add(sliderHeightRow);
         });
         scene.heightProperty().addListener((obs, oldHeight, newHeight) -> {
             sliderMenu.getChildren().clear();
             HEIGHT = newHeight.intValue();
-            System.out.println(WIDTH + ";" + HEIGHT);
+            //System.out.println(WIDTH + ";" + HEIGHT);
             sliderHeightRow.setLayoutX((WIDTH - 400)/2);
             sliderHeightRow.setLayoutY(HEIGHT - 50);
-            System.out.println(sliderHeightRow.getLayoutX() + "-" + sliderHeightRow.getLayoutY());
+            //System.out.println(sliderHeightRow.getLayoutX() + "-" + sliderHeightRow.getLayoutY());
             sliderMenu.getChildren().add(sliderHeightRow);
         });
 
@@ -175,8 +175,8 @@ public class PrintTree extends Application {
         int columnCount = allNodes;
         int rowCount = allLevels;
         root.setVgap(heightRow);
-        System.out.println("h: " + heightRow);
-        System.out.println("FIXED: " + columnCount + ";" + rowCount);
+        //System.out.println("h: " + heightRow);
+        //System.out.println("FIXED: " + columnCount + ";" + rowCount);
         for(int i=0;i<columnCount;i++) {
             root.getColumnConstraints().add(new ColumnConstraints());
         }
@@ -202,7 +202,7 @@ public class PrintTree extends Application {
                 line.setStroke(Color.web("white"));
                 line.setStrokeWidth(5);
                 netRoot.getChildren().add(line);
-                System.out.println("Node: " + root.number + "; leftChild: " + root.left.number);
+                //System.out.println("Node: " + root.number + "; leftChild: " + root.left.number);
             }
             if(Node.hasRightChildren(root)) {
                 Line line = new Line();
@@ -213,7 +213,7 @@ public class PrintTree extends Application {
                 line.setStroke(Color.web("white"));
                 line.setStrokeWidth(5);
                 netRoot.getChildren().add(line);
-                System.out.println("Node: " + root.number + "; rightChild: " + root.right.number);
+                //System.out.println("Node: " + root.number + "; rightChild: " + root.right.number);
             }
             k++;
             checkIfChildren(root.left);

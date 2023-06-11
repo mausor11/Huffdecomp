@@ -49,7 +49,7 @@ public class TreeController {
     private final ChangeListener<String> zmianoSluchacz = new ChangeListener<>() {
         @Override
         public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-            System.out.println("textArea zmieniony tekst");
+            //System.out.println("textArea zmieniony tekst");
             hidePasswordField();
             hideButtonAnimation();
             decompress.setOnAction(e -> {
@@ -205,10 +205,9 @@ public class TreeController {
             textArea.setText(file.getAbsolutePath());
     }
 
-    //trochę głupie
+    //trochę głupie, ale inaczej będzie ich tyle, ile razy się kliknie Choose File lub pole do wpisywania ścieżki pliku
     @FXML
     private void changedFile() {
-            //System.out.println("odpal changed file");
             textArea.textProperty().removeListener(zmianoSluchacz);
             textArea.textProperty().addListener(zmianoSluchacz);
     }
@@ -222,7 +221,7 @@ public class TreeController {
         } catch (IOException ioe) {
             throw new IOException(ioe);
         }
-        System.out.println(inputPath);
+        //System.out.println(inputPath);
         if(inputPath != null) {
             textArea.setStyle("-fx-border-color: #5e10d9");
             if(!menuButton.isVisible()) {
@@ -230,7 +229,7 @@ public class TreeController {
                 if(!extensionText.getText().isEmpty()) {
                     nameFile = nameFile + "." + extensionText.getText();
                     boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
-                    System.out.println("Encryption: " + isEncrypted);
+                    //System.out.println("Encryption: " + isEncrypted);
                     goToDecompression(inputPath, nameFile, passwordField.getText());
                 } else {
                     menuButton.setVisible(true);
@@ -240,7 +239,7 @@ public class TreeController {
                 }
             } else {
                 boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
-                System.out.println("Encryption: " + isEncrypted);
+                //System.out.println("Encryption: " + isEncrypted);
                 if(exten == null) {
                     PauseTransition del = new PauseTransition(Duration.seconds((0.3)));
                     del.setOnFinished(e -> menuButton.setStyle("-fx-border-color: RED"));
@@ -286,7 +285,7 @@ public class TreeController {
                 PrintTree printTree = new PrintTree(decompression.tree.root);
                 printTree.start(stage);
             } else {
-                WarningScreen warningScreen = new WarningScreen("Decompressor works only with 8-bit compressed files!");
+                WarningScreen warningScreen = new WarningScreen("Huffdecomp only works on 8-bit compressed files!");
                 warningScreen.start(stage);
             }
         });

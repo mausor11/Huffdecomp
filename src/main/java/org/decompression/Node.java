@@ -22,7 +22,6 @@ public class Node{
     }
     private void writeTree(Node node) {
         writeNode(node, 0);
-//        levels.print();
     }
     private void writeNode(Node root,  int i) {
         if(root != null) {
