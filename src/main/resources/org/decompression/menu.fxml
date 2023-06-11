@@ -7,7 +7,7 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1216.0" style="-fx-background-color: #0C021B;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.decompression.TreeController">
-    <Button id="button" fx:id="button" layoutX="376.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#setItem" prefHeight="61.0" prefWidth="205.0" text="Choose file" textFill="#ebe1fa">
+    <Button id="button" layoutX="376.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#setItem" prefHeight="61.0" prefWidth="205.0" text="Choose file" textFill="#ebe1fa">
         <font>
           <Font size="20.0" />
         </font>

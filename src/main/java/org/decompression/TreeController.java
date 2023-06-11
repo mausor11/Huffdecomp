@@ -29,8 +29,6 @@ public class TreeController {
     private String nameFile;
     private ButtonStatus status;
     @FXML
-    private Button button;
-    @FXML
     private Button backButton;
     @FXML
     private TextField extensionText;
@@ -223,17 +221,13 @@ public class TreeController {
         } catch (IOException ioe) {
             throw new IOException(ioe);
         }
-        //System.out.println(inputPath);
         if(inputPath != null) {
             textArea.setStyle("-fx-border-color: #5e10d9");
             try {
                 if(!menuButton.isVisible()) {
-                    //System.out.println("a");
                     if(!extensionText.getText().isEmpty()) {
                         nameFile = nameFile + "." + extensionText.getText();
-                        boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
-
-                        //System.out.println("Encryption: " + isEncrypted);
+                        CheckInput.isEncryptRequired(inputPath);
                         goToDecompression(inputPath, nameFile, passwordField.getText());
                     } else {
                         menuButton.setVisible(true);
@@ -243,7 +237,6 @@ public class TreeController {
                     }
                 } else {
                     boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
-                    //System.out.println("Encryption: " + isEncrypted);
                     if(exten == null) {
                         PauseTransition del = new PauseTransition(Duration.seconds((0.3)));
                         del.setOnFinished(e -> menuButton.setStyle("-fx-border-color: RED"));

@@ -44,13 +44,8 @@ public class CheckInput {
             flag = file.readByte();
             int tmp = flag & maskEncrypt;
             tmp>>=5;
-            if(tmp == 1) {
-                file.close();
-                return true;
-            } else {
-                file.close();
-                return false;
-            }
+            file.close();
+            return tmp == 1;
     }
     private void checkFlag() {
         byte maskSzyfr = 0b00100000;
@@ -58,11 +53,7 @@ public class CheckInput {
         byte maskComp =  (byte)0b11000000;
         int tmp = flag & maskSzyfr;
         tmp >>= 5;
-        if(tmp == 1) {
-            encryption = true;
-        } else {
-            encryption = false;
-        }
+        encryption = tmp == 1;
         tmp = flag & maskComp;
         tmp >>= 6;
         this.compLevel = (byte)tmp; //1 - 8bit, 2 - 12bit, 3 - 16bit

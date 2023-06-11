@@ -14,6 +14,8 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.Objects;
+
 public class LoadingScreen extends Application {
 
     @Override
@@ -40,7 +42,7 @@ public class LoadingScreen extends Application {
         circleLoading.setLayoutY(400);
         root.getChildren().add(circleLoading);
         Scene scene = new Scene(root, 1216, 800);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toExternalForm());
 
 
         stage.setScene(scene);

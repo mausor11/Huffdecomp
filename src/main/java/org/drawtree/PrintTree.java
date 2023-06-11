@@ -14,6 +14,7 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import org.decompression.Node;
 
+import java.util.Objects;
 import java.util.Vector;
 public class PrintTree extends Application {
     int heightRow = 300;
@@ -33,7 +34,7 @@ public class PrintTree extends Application {
     int allLevels;
 
 // klasa-typ punkt do węzłów
-    private class ArrayXY {
+    private static class ArrayXY {
         private final int level;
         private final char sign;
         public ArrayXY(int level, char sign) {
@@ -108,7 +109,7 @@ public class PrintTree extends Application {
         g.getChildren().add(root);
         g.getChildren().add(sliderMenu);
         Scene scene = new Scene(g, WIDTH, HEIGHT);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toExternalForm());
 
         scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
             sliderMenu.getChildren().clear();
@@ -172,12 +173,9 @@ public class PrintTree extends Application {
     private void prepareGrid() {
         root.getColumnConstraints().clear();
         root.getRowConstraints().clear();
-        int columnCount = allNodes;
         int rowCount = allLevels;
         root.setVgap(heightRow);
-        //System.out.println("h: " + heightRow);
-        //System.out.println("FIXED: " + columnCount + ";" + rowCount);
-        for(int i=0;i<columnCount;i++) {
+        for(int i=0;i<allNodes;i++) {
             root.getColumnConstraints().add(new ColumnConstraints());
         }
         for(int i=0;i<rowCount;i++) {
