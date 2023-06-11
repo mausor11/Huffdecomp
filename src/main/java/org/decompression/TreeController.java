@@ -1,4 +1,5 @@
 package org.decompression;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
@@ -12,9 +13,11 @@ import javafx.util.Duration;
 import org.drawtree.LoadingScreen;
 import org.drawtree.PrintTree;
 import org.menuButton.*;
-
-
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class TreeController {
     final FileChooser fileChooser = new FileChooser();
@@ -42,7 +45,7 @@ public class TreeController {
     private String exten;
 
 
-    public void setItem() {
+    public void setItem() throws IOException {
         fileChooser.setTitle("Choose file");
         File file = fileChooser.showOpenDialog(null);
         menuButton.setText("Extension");
@@ -50,10 +53,15 @@ public class TreeController {
         if(file != null ) {
             textArea.setText(file.getAbsolutePath());
             inputPath = file.getAbsolutePath();
-            File fl = new File("Decompressed Files");
-            // do lekkiej poprawy
-            fl.mkdir();
-            nameFile = fl.getName() + "/" + file.getName();
+            Path pth = Paths.get("Decompressed Files");
+            try {
+                if (!Files.exists(pth)) {
+                    Files.createDirectory(pth);
+                }
+            } catch (IOException e) {
+                throw new IOException(e);
+            }
+            nameFile = pth.getName(0) + "/" + file.getName();
             System.out.println(nameFile);
             int ifDot = nameFile.lastIndexOf('.');
             if(ifDot != -1) {
@@ -237,7 +245,7 @@ public class TreeController {
         AnchorPane root = (AnchorPane) container.getScene().getRoot();
         root.getChildren().clear();
         Decompression decompression = new Decompression(inputFile, outputFile, password);
-        Task<Void> task = new Task<Void>() {
+        Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 decompression.decode();
