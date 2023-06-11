@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 
 import javafx.scene.shape.*;
 
-
 public class WarningScreen extends Application {
     private String text;
     public WarningScreen(String text) {
@@ -88,7 +87,6 @@ public class WarningScreen extends Application {
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
-
 
     }
 

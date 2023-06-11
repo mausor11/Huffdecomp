@@ -15,6 +15,7 @@ import org.drawtree.LoadingScreen;
 import org.drawtree.PrintTree;
 import org.menuButton.*;
 
+import java.io.EOFException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -201,8 +202,9 @@ public class TreeController {
         changedFile();
         fileChooser.setTitle("Choose file");
         File file = fileChooser.showOpenDialog(null);
-        if(file != null)
+        if(file != null) {
             textArea.setText(file.getAbsolutePath());
+        }
     }
 
     //trochę głupie, ale inaczej będzie ich tyle, ile razy się kliknie Choose File lub pole do wpisywania ścieżki pliku
@@ -224,38 +226,45 @@ public class TreeController {
         //System.out.println(inputPath);
         if(inputPath != null) {
             textArea.setStyle("-fx-border-color: #5e10d9");
-            if(!menuButton.isVisible()) {
-                //System.out.println("a");
-                if(!extensionText.getText().isEmpty()) {
-                    nameFile = nameFile + "." + extensionText.getText();
+            try {
+                if(!menuButton.isVisible()) {
+                    //System.out.println("a");
+                    if(!extensionText.getText().isEmpty()) {
+                        nameFile = nameFile + "." + extensionText.getText();
+                        boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
+
+                        //System.out.println("Encryption: " + isEncrypted);
+                        goToDecompression(inputPath, nameFile, passwordField.getText());
+                    } else {
+                        menuButton.setVisible(true);
+                        extensionText.setVisible(false);
+                        backButton.setVisible(false);
+                        info.setVisible(false);
+                    }
+                } else {
                     boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
                     //System.out.println("Encryption: " + isEncrypted);
-                    goToDecompression(inputPath, nameFile, passwordField.getText());
-                } else {
-                    menuButton.setVisible(true);
-                    extensionText.setVisible(false);
-                    backButton.setVisible(false);
-                    info.setVisible(false);
+                    if(exten == null) {
+                        PauseTransition del = new PauseTransition(Duration.seconds((0.3)));
+                        del.setOnFinished(e -> menuButton.setStyle("-fx-border-color: RED"));
+                        del.play();
+                    }
+                    else if(isEncrypted) {
+                        PauseTransition delay1 = new PauseTransition(Duration.seconds(0.3));
+                        delay1.setOnFinished(e -> showPasswordField());
+                        delay1.play();
+                        passwordRequired();
+                        moveButtonAnimation();
+                    } else {
+                        nameFile = nameFile + exten;
+                        goToDecompression(inputPath, nameFile, passwordField.getText());
+                    }
                 }
-            } else {
-                boolean isEncrypted = CheckInput.isEncryptRequired(inputPath);
-                //System.out.println("Encryption: " + isEncrypted);
-                if(exten == null) {
-                    PauseTransition del = new PauseTransition(Duration.seconds((0.3)));
-                    del.setOnFinished(e -> menuButton.setStyle("-fx-border-color: RED"));
-                    del.play();
-                }
-                else if(isEncrypted) {
-                    PauseTransition delay1 = new PauseTransition(Duration.seconds(0.3));
-                    delay1.setOnFinished(e -> showPasswordField());
-                    delay1.play();
-                    passwordRequired();
-                    moveButtonAnimation();
-                } else {
-                    nameFile = nameFile + exten;
-                    goToDecompression(inputPath, nameFile, passwordField.getText());
-                }
+            } catch (EOFException | FileNotFoundException e) {
+                WarningScreen warningScreen = new WarningScreen("File not found!");
+                warningScreen.start(StageSingleton.getStageInstance());
             }
+
         } else {
             textArea.setStyle("-fx-border-color: RED");
         }
@@ -272,7 +281,9 @@ public class TreeController {
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
-                check[0] = decompression.decode();
+                if(decompression.ifCheckIsCorrect) {
+                    check[0] = decompression.decode();
+                }
                 return null;
             }
         };
@@ -281,13 +292,19 @@ public class TreeController {
             loadingScreen.start(stage);
         });
         task.setOnSucceeded(event -> {
-            if(check[0]) {
-                PrintTree printTree = new PrintTree(decompression.tree.root);
-                printTree.start(stage);
+            if(decompression.ifCheckIsCorrect) {
+                if(check[0]) {
+                    PrintTree printTree = new PrintTree(decompression.tree.root);
+                    printTree.start(stage);
+                } else {
+                    WarningScreen warningScreen = new WarningScreen("Huffdecomp only works on 8-bit compressed files!");
+                    warningScreen.start(stage);
+                }
             } else {
-                WarningScreen warningScreen = new WarningScreen("Huffdecomp only works on 8-bit compressed files!");
+                WarningScreen warningScreen = new WarningScreen("Input file cannot be decompressed - either incorrect or corrupted.");
                 warningScreen.start(stage);
             }
+
         });
         new Thread(task).start();
 

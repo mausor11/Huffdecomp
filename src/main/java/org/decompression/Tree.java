@@ -7,12 +7,14 @@ public class Tree{
         CheckInput check = new CheckInput(file);
         this.union = new Union();
         this.leaves = check.leaves;
+        this.ifCheckIsCorrect = check.ifCheckIsCorrect;
         this.cntr = 8;
         this.output = output;
         this.last = check.last;
         this.encryption = check.encryption;
         this.compLevel = check.compLevel;
     }
+    public boolean ifCheckIsCorrect = true;
     short leaves;
     byte last;
     boolean encryption;

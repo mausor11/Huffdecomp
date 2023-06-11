@@ -1,6 +1,5 @@
 package org.decompression;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -13,6 +12,7 @@ public class CheckInput {
     byte compLevel;
     final RandomAccessFile input;
     int sumInt;
+    public boolean ifCheckIsCorrect = true;
     public CheckInput(RandomAccessFile file) throws IOException {
         this.input = file;
 
@@ -22,22 +22,21 @@ public class CheckInput {
         sumInt = sum;
         sumInt ^= 0b11111111;
         if(checkSum() != 1) {
-            System.out.println("File error!");
-            System.exit(-1);
+            this.ifCheckIsCorrect = false;
         } else {
             file.seek(3);
+
+            flag = file.readByte();
+            byte tmp1 = file.readByte();
+            byte tmp2 = file.readByte();
+            leaves <<= 8;
+            leaves += tmp2;
+            leaves <<= 8;
+            leaves += tmp1;
+            checkFlag();
         }
-        flag = file.readByte();
-        byte tmp1 = file.readByte();
-        byte tmp2 = file.readByte();
-        leaves <<= 8;
-        leaves += tmp2;
-        leaves <<= 8;
-        leaves += tmp1;
-        checkFlag();
     }
     public static boolean isEncryptRequired(String fileName) throws IOException {
-        try {
             RandomAccessFile file = new RandomAccessFile(fileName, "r");
             byte maskEncrypt = 0b00100000;
             byte flag;
@@ -52,12 +51,6 @@ public class CheckInput {
                 file.close();
                 return false;
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found!");
-            e.printStackTrace();
-            System.exit(-1);
-        }
-        return false;
     }
     private void checkFlag() {
         byte maskSzyfr = 0b00100000;
@@ -85,7 +78,7 @@ public class CheckInput {
                 sumInt = input.readByte() ^ sumInt;
                 sumInt ^= 0xFF;
                 sumInt ^= 0b11111111;
-                //System.out.println(sumInt);
+                System.out.println(sumInt);
                 cntr++;
             }
             input.seek(input.getFilePointer() + 1);
@@ -99,8 +92,8 @@ public class CheckInput {
         } catch (IOException e) {
             throw new IOException("Warning! There was an I/O error while checking input file integrity.");
         }
-        //System.out.println(sumInt);
-        //System.out.println(cntr);
+        System.out.println(sumInt);
+        System.out.println(cntr);
         if(sumInt == 69) {
             return 1;
         } else {

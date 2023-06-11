@@ -11,8 +11,9 @@ public class Main extends Application {
         launch();
 
     }
-    @Override
+        @Override
     public void start(Stage stage) throws Exception {
+        stage = StageSingleton.getStageInstance();
         Image appIcon = new Image(getClass().getResourceAsStream("ICON2.png"));
         stage.getIcons().add(appIcon);
         stage.setTitle("Huffdecomp");

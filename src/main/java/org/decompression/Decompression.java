@@ -10,7 +10,7 @@ public class Decompression {
         this.password = password;
         Tree tree = new Tree(input, output);
         this.encryption = tree.encryption;
-
+        this.ifCheckIsCorrect = tree.ifCheckIsCorrect;
         if(this.encryption) {
            XOR();
         }
@@ -22,6 +22,7 @@ public class Decompression {
     RandomAccessFile input;
     RandomAccessFile output;
     String password;
+    public boolean ifCheckIsCorrect;
     int compLevel;
     boolean encryption;
     Tree tree;
